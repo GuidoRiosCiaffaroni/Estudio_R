@@ -16,7 +16,5 @@ echo "git branch -M main"
 git branch -M main
 
 echo "git remote add origin https://github.com/GuidoRiosCiaffaroni/Estudio_R.git"
-git remote add origin https://github.com/GuidoRiosCiaffaroni/Estudio_R.git
 
 echo "git push -u origin main"
-git push -u origin main
