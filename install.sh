@@ -65,14 +65,53 @@
 #service apache2 restart
 #############################################################################################################
 
-sudo apt install php -y 
-sudo apt libapache2-mod-php -y 
-sudo apt php-mysql -y 
-sudo apt php-cli -y 
-sudo apt php-curl -y 
-sudo apt php-gd -y 
-sudo apt php-mbstring -y 
-sudo apt php-xml -y 
-sudo apt php-zip -y 
-sudo apt php-bcmath -y 
-sudo apt php-intl -y
+#############################################################################################################
+#sudo apt install php -y 
+#sudo apt install libapache2-mod-php -y 
+#sudo apt install php-mysql -y 
+#sudo apt install php-cli -y 
+#sudo apt install php-curl -y 
+#sudo apt install php-gd -y 
+#sudo apt install php-mbstring -y 
+#sudo apt install php-xml -y 
+#sudo apt install php-zip -y 
+#sudo apt install php-bcmath -y 
+#sudo apt install php-intl -y
+#service apache2 restart
+#############################################################################################################
+
+#############################################################################################################
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.3/apache2/php.ini         # Tiempo máximo que un script puede ejecutarse
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/8.3/apache2/php.ini                   # Tiempo máximo que PHP espera datos de entrada (POST/GET)
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/8.3/apache2/php.ini                      # Límite de memoria para scripts PHP
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/8.3/cli/php.ini 
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/8.3/apache2/php.ini                    # Tamaño máximo de datos POST (subidas incluidas)
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/8.3/cli/php.ini  
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/8.3/apache2/php.ini        # Tamaño máximo permitido para subida de archivos
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/8.3/cli/php.ini  
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/8.3/apache2/php.ini                # Número máximo de archivos permitidos por subida
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/8.3/cli/php.ini 
+
+# Activar extensiones comentadas (quita el `;` al inicio si existe)
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/8.3/apache2/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/8.3/cli/php.ini
+
+#############################################################################################################
