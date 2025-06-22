@@ -141,10 +141,43 @@ sudo apt install vsftpd -y
 
 #############################################################################################################
 
+# Comprobar que el repositorio funciona
+sudo apt policy mysql-server
 
 
-#sudo apt install mysql-server -y
-#sudo apt install mysql-client -y 
-#sudo apt install libmysqlclient-dev -y
 
+# Descargar la clave GPG
+sudo wget -O /usr/share/keyrings/mysql.gpg https://repo.mysql.com/RPM-GPG-KEY-mysql
+
+# Añadir la clave al keyring de APT
+sudo gpg --dearmor --output /usr/share/keyrings/mysql.gpg /usr/share/keyrings/mysql.gpg
+
+# Verificar que la clave se instaló correctamente
+sudo apt-key list | grep MySQL
+
+
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv B7B3B788A8D3785C
+gpg --export --armor B7B3B788A8D3785C | sudo apt-key add -
+sudo apt update
+
+# Descargar la clave directamente del keyserver
+sudo gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B7B3B788A8D3785C
+
+# Exportar la clave al keyring de APT
+sudo gpg --export --armor B7B3B788A8D3785C | sudo apt-key add -
+
+# Actualizar nuevamente
+sudo apt update
+
+# Eliminar el repositorio problemático
+sudo rm /etc/apt/sources.list.d/mysql*
+
+# Instalar MariaDB como alternativa (recomendado)
+sudo apt install mariadb-server -y
+sudo apt install mariadb-client -y
+sudo apt install libmariadb-dev -y
+sudo apt install libmariadb-dev-compat -y
+sudo apt install mariadb-backup -y
 #sudo apt install phpmyadmin  -y
