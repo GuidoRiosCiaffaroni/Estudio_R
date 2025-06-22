@@ -129,15 +129,6 @@ service apache2 restart
 #############################################################################################################
 
 #############################################################################################################
-sudo apt install mysql-server -y
-sudo apt install mysql-client -y 
-sudo apt install libmysqlclient-dev -y 
-
-
-
-
-
-
 
 sudo apt install curl -y 
 sudo apt install git -y 
@@ -146,8 +137,14 @@ sudo apt install ufw -y
 sudo apt install mailutils -y 
 sudo apt install tmux -y 
 sudo apt install vim -y 
-#sudo apt install vsftpd -y 
-#sudo apt install phpmyadmin  -y
+sudo apt install vsftpd -y 
 
 #############################################################################################################
 
+
+
+#sudo apt install mysql-server -y
+#sudo apt install mysql-client -y 
+#sudo apt install libmysqlclient-dev -y
+
+#sudo apt install phpmyadmin  -y
