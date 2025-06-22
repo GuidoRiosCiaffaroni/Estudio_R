@@ -1,3 +1,9 @@
+#!/bin/bash
+
+PHPVERSION=8.2
+
+
+
 ############################################################################################################
 sudo apt update -y
 sudo apt upgrade -y
@@ -84,38 +90,38 @@ service apache2 restart
 ############################################################################################################
 
 #############################################################################################################
-sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.3/apache2/php.ini         # Tiempo máximo que un script puede ejecutarse
-sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/8.3/apache2/php.ini                   # Tiempo máximo que PHP espera datos de entrada (POST/GET)
-sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/8.3/apache2/php.ini                      # Límite de memoria para scripts PHP
-sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/8.3/cli/php.ini 
-sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/8.3/apache2/php.ini                    # Tamaño máximo de datos POST (subidas incluidas)
-sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/8.3/cli/php.ini  
-sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/8.3/apache2/php.ini        # Tamaño máximo permitido para subida de archivos
-sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/8.3/cli/php.ini  
-sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/8.3/apache2/php.ini                # Número máximo de archivos permitidos por subida
-sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/8.3/cli/php.ini 
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/${PHPVERSION}/apache2/php.ini         # Tiempo máximo que un script puede ejecutarse
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/${PHPVERSION}/apache2/php.ini                   # Tiempo máximo que PHP espera datos de entrada (POST/GET)
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/${PHPVERSION}/apache2/php.ini                      # Límite de memoria para scripts PHP
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/${PHPVERSION}/cli/php.ini 
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/${PHPVERSION}/apache2/php.ini                    # Tamaño máximo de datos POST (subidas incluidas)
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/${PHPVERSION}/cli/php.ini  
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/${PHPVERSION}/apache2/php.ini        # Tamaño máximo permitido para subida de archivos
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/${PHPVERSION}/cli/php.ini  
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/${PHPVERSION}/apache2/php.ini                # Número máximo de archivos permitidos por subida
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/${PHPVERSION}/cli/php.ini 
 
 # Activar extensiones comentadas (quita el `;` al inicio si existe)
-sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/8.3/cli/php.ini
-sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/8.3/apache2/php.ini
-sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/8.3/cli/php.ini
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/${PHPVERSION}/cli/php.ini
 
 service apache2 restart
 #############################################################################################################
