@@ -184,6 +184,6 @@ sudo rm /etc/apt/sources.list.d/mysql*
 sudo apt install mariadb-server -y
 sudo apt install mariadb-client -y
 sudo apt install libmariadb-dev -y
-sudo apt install libmariadb-dev-compat -y
-sudo apt install mariadb-backup -y
+#sudo apt install libmariadb-dev-compat -y
+#sudo apt install mariadb-backup -y
 #sudo apt install phpmyadmin  -y
