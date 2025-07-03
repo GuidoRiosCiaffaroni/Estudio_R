@@ -2,6 +2,9 @@
 
 ####################################################################################################################
 read -rsp $'Presione cualquier tecla o espere 5 segundos para continuar  \n' -n 1 -t 5;
+ git config --global user.email "guidoriosciaffaroni@gmail.com"
+ git config --global user.name "GuidoRiosCiaffaroni"
+  
 
 # definir variables para fecha y tiempo
 date_stamp=$(date +"%Y_%m_%d_%H_%M_%S")
@@ -18,4 +21,6 @@ git branch -M main
 echo "git remote add origin https://github.com/GuidoRiosCiaffaroni/Estudio_R.git"
 #git remote add origin https://github.com/GuidoRiosCiaffaroni/Estudio_R.git
 echo "git push -u origin main"
+  git config --global user.email "guidoriosciaffaroni@gmail.com"
+  git config --global user.name "GuidoRiosCiaffaroni"
 git push -u origin main
