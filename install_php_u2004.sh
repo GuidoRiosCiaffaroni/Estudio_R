@@ -1,5 +1,9 @@
 #!/bin/bash
 
+PHPVERSION=8.2
+
+
+
 ############################################################################################################
 sudo apt update -y
 sudo apt upgrade -y
@@ -65,6 +69,66 @@ apt-get install -y hollywood                   # Simula actividad de hacker en l
 ############################################################################################################
 
 #############################################################################################################
+sudo apt install apache2 -y
+service apache2 restart
+#############################################################################################################
+
+#############################################################################################################
+sudo apt install php -y 
+sudo apt install libapache2-mod-php -y 
+sudo apt install php-mysql -y 
+sudo apt install php-cli -y 
+sudo apt install php-curl -y 
+sudo apt install php-gd -y 
+sudo apt install php-mbstring -y 
+sudo apt install php-xml -y 
+sudo apt install php-xmlrpc -y 
+sudo apt install php-zip -y 
+sudo apt install php-bcmath -y 
+sudo apt install php-intl -y
+sudo apt install php-soap -y 
+service apache2 restart
+
+############################################################################################################
+
+#############################################################################################################
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/${PHPVERSION}/apache2/php.ini         # Tiempo máximo que un script puede ejecutarse
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/${PHPVERSION}/apache2/php.ini                   # Tiempo máximo que PHP espera datos de entrada (POST/GET)
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/${PHPVERSION}/apache2/php.ini                      # Límite de memoria para scripts PHP
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/' /etc/php/${PHPVERSION}/cli/php.ini 
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/${PHPVERSION}/apache2/php.ini                    # Tamaño máximo de datos POST (subidas incluidas)
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/' /etc/php/${PHPVERSION}/cli/php.ini  
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/${PHPVERSION}/apache2/php.ini        # Tamaño máximo permitido para subida de archivos
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /etc/php/${PHPVERSION}/cli/php.ini  
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/${PHPVERSION}/apache2/php.ini                # Número máximo de archivos permitidos por subida
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/' /etc/php/${PHPVERSION}/cli/php.ini 
+
+# Activar extensiones comentadas (quita el `;` al inicio si existe)
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=curl/extension=curl/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=ftp/extension=ftp/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=fileinfo/extension=fileinfo/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=gd/extension=gd/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=zip/extension=zip/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=xml/extension=xml/' /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;extension=intl/extension=intl/' /etc/php/${PHPVERSION}/cli/php.ini
+
+service apache2 restart
+#############################################################################################################
+
+#############################################################################################################
 
 sudo apt install curl -y 
 sudo apt install git -y 
@@ -78,17 +142,48 @@ sudo apt install vsftpd -y
 #############################################################################################################
 
 #############################################################################################################
-sudo apt install locales -y
-sudo dpkg-reconfigure locales
-#97. en_US.UTF-8 UTF-8
-sudo locale-gen
-sudo update-locale LANG=en_US.UTF-8
-#sudo update-locale LANG=es_CL.UTF-8 LANGUAGE=es_CL.UTF-8
-
-source /etc/default/locale
-
-# Esperado 
-#LANG=en_US.UTF-8
-#LANGUAGE=en_US.UTF-8
-#LC_ALL=
+#sudo apt install unattended-upgrades -y
 #############################################################################################################
+
+
+#############################################################################################################
+# Comprobar que el repositorio funciona
+sudo apt policy mysql-server
+
+
+
+# Descargar la clave GPG
+sudo wget -O /usr/share/keyrings/mysql.gpg https://repo.mysql.com/RPM-GPG-KEY-mysql
+
+# Añadir la clave al keyring de APT
+sudo gpg --dearmor --output /usr/share/keyrings/mysql.gpg /usr/share/keyrings/mysql.gpg
+
+# Verificar que la clave se instaló correctamente
+sudo apt-key list | grep MySQL
+
+
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv B7B3B788A8D3785C
+gpg --export --armor B7B3B788A8D3785C | sudo apt-key add -
+sudo apt update
+
+# Descargar la clave directamente del keyserver
+sudo gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B7B3B788A8D3785C
+
+# Exportar la clave al keyring de APT
+sudo gpg --export --armor B7B3B788A8D3785C | sudo apt-key add -
+
+# Actualizar nuevamente
+sudo apt update
+
+# Eliminar el repositorio problemático
+sudo rm /etc/apt/sources.list.d/mysql*
+
+# Instalar MariaDB como alternativa (recomendado)
+sudo apt install mariadb-server -y
+sudo apt install mariadb-client -y
+sudo apt install libmariadb-dev -y
+#sudo apt install libmariadb-dev-compat -y
+#sudo apt install mariadb-backup -y
+#sudo apt install phpmyadmin  -y
