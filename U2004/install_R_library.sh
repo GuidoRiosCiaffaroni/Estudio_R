@@ -24,7 +24,7 @@
 # Instalacion de librerias
 #sudo Rscript -e "install.packages(c('tidyverse'), repos='https://cloud.r-project.org/')"
 #sudo Rscript -e "install.packages(c('scales'), repos='https://cloud.r-project.org/'"
-sudo Rscript -e "install.packages('scales', repos='https://cloud.r-project.org/')"
-#sudo Rscript -e "install.packages(c('ggplot2'), repos='https://cloud.r-project.org/')"
+#sudo Rscript -e "install.packages('scales', repos='https://cloud.r-project.org/')"
+sudo Rscript -e "install.packages(c('ggplot2'), repos='https://cloud.r-project.org/')"
 ############################################################################################################
 
