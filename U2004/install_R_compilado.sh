@@ -52,16 +52,6 @@ sudo apt install -f
 wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.0-735-amd64.deb
 sudo apt install ./rstudio-server-2024.04.0-735-amd64.deb
 
-#sudo systemctl start rstudio-server
-#sudo systemctl enable rstudio-server
-#sudo systemctl status rstudio-server
-
-#Ver estado	sudo systemctl status rstudio-server
-#Reiniciar RStudio Server	sudo systemctl restart rstudio-server
-#Ver logs	sudo journalctl -u rstudio-server
-#Ver usuarios conectados	sudo rstudio-server active-sessions
-
-#  Instalar tidyverse y ggplot2 desde R
 sudo R --no-save <<EOF
 install.packages("tidyverse", repos="https://cloud.r-project.org")
 install.packages("ggplot2", repos="https://cloud.r-project.org")
