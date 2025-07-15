@@ -1,0 +1,1 @@
+#sudo a2enmod rewrite headers expires deflate mime dir alias \ authz_host log_config autoindex negotiation setenvif
