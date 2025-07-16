@@ -1,0 +1,9 @@
+sudo mysql -u root -p
+#
+CREATE USER 'nuevo_admin'@'localhost' IDENTIFIED BY 'MiClaveSegura';
+#
+GRANT ALL PRIVILEGES ON *.* TO 'nuevo_admin'@'localhost' WITH GRANT OPTION;
+#
+FLUSH PRIVILEGES;
+#
+SHOW GRANTS FOR 'nuevo_admin'@'localhost';
