@@ -1,10 +1,11 @@
 # Instalar si no lo tienes
-install.packages("RMySQL")
 
 library(RMySQL)
 library(RMariaDB)
 # Conexión
-con <- dbConnect(MySQL(), dbname = "wordpress", host = "localhost",user = "nuevo_admin", password = "MiClaveSegura")
+#con <- dbConnect(MySQL(), dbname="wordpress", host="localhost",user="nuevo_admin", password="MiClaveSegura")
+con <- dbConnect(MariaDB(), dbname="wordpress", host="localhost", user="nuevo_admin", password="MiClaveSegura")
+
 
 # Consultar la tabla wp_db_upload
 datos <- dbGetQuery(con, "SELECT * FROM wp_db_upload")
