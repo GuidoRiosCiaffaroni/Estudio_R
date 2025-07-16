@@ -1,5 +1,5 @@
 # Instalar si no lo tienes
-#install.packages("RMySQL")
+install.packages("RMySQL")
 
 library(RMySQL)
 
