@@ -1,6 +1,6 @@
 # Instalar si no lo tienes
 
-library(RMySQL)
+#library(RMySQL)
 library(RMariaDB)
 # Conexión
 #con <- dbConnect(MySQL(), dbname="wordpress", host="localhost",user="nuevo_admin", password="MiClaveSegura")
