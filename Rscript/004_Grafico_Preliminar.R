@@ -1,9 +1,10 @@
-# Instalar RMariaDB si no está instalado
-# install.packages("RMariaDB")
-
+# install.packages("RMariaDB")     # Ejecutar sólo la primera vez
+library(DBI)
 library(RMariaDB)
+library(dplyr)
+library(ggplot2)
 
-# Conexión a la base de datos
+# 1. Conexión
 con <- dbConnect(
   MariaDB(),
   dbname   = "wordpress",
@@ -12,29 +13,30 @@ con <- dbConnect(
   password = "MiClaveSegura"
 )
 
-# Consultar la tabla wp_db_upload
+# 2. Consulta
 datos <- dbGetQuery(con, "SELECT * FROM wp_db_upload")
 
-###########################################################################
+# 3. Limpieza / transformación
+# Ajusta el nombre de la columna según aparezca en names(datos)
+datos <- datos %>%
+  rename(genero_victima = genero_victima) %>%   # <-- cámbialo si es distinto
+  mutate(genero_victima = factor(
+    genero_victima,
+    levels = c(0, 1, 2),
+    labels = c("Hombre", "Mujer", "Otro")
+  ))
 
-# Leer el archivo CSV modificado
-#datos <- read.csv2("Data_modificado.csv", encoding = "UTF-8", stringsAsFactors = FALSE)
-
-# Convertir columna Genero.Victima a factor con etiquetas
-datos$Genero.Victima <- factor(datos$Genero.Victima,
-                               levels = c(0, 1, 2),
-                               labels = c("Hombre", "Mujer", "Otro"))
-
-# Crear gráfico y guardar como imagen PNG
-png("001_genero_victima.png", width = 800, height = 600)
-
-ggplot(datos, aes(x = Genero.Victima)) +
+# 4. Plot
+png("001_genero_victima.png", 800, 600)
+ggplot(datos, aes(x = genero_victima)) +
   geom_bar(fill = "steelblue") +
-  labs(title = "Distribución por Sexo (Víctima)",
-       x = "Sexo",
-       y = "Frecuencia") +
+  labs(
+    title = "Distribución por Sexo (Víctima)",
+    x = "Sexo",
+    y = "Frecuencia"
+  ) +
   theme_minimal()
-
 dev.off()
 
-###########################################################################
+# 5. Cierra la conexión
+dbDisconnect(con)
