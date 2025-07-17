@@ -13,8 +13,9 @@ con <- dbConnect(
 )
 
 # Leer toda la tabla
-# Leer archivo
-datos <- read.csv2("Data_modificado.csv", encoding = "UTF-8", stringsAsFactors = FALSE)
+# Leer toda la tabla
+datos <- dbReadTable(con, "wp_db_upload")      # evita problemas de mayúsculas
+
 
 # Convertir fecha
 datos$Fecha <- as.POSIXct(datos$Fecha, format = "%d-%m-%Y %H:%M", tz = "UTC")
