@@ -58,4 +58,4 @@ ggsave(
   dpi      = 300
 )
 
-message("Gráfico guardado en: ", file.path(dir_out, "009_violencia_mujeres.png"))
+message("Gráfico guardado en: ", file.path(dir_out, "005_violencia_mujeres.png"))

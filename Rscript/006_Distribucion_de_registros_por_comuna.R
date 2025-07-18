@@ -35,7 +35,7 @@ dir_out <- "/home/r/Estudio_R/salidas"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 # Nombre de archivo
-file_out <- file.path(dir_out, "002_distribucion_comunas.png")
+file_out <- file.path(dir_out, "006_distribucion_comunas.png")
 
 # ────────────────────────────────────────────────────────────────────────────────
 #  GRÁFICO ----------------------------------------------------------------------

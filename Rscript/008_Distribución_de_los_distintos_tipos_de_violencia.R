@@ -33,7 +33,7 @@ datos <- dbReadTable(con, "wp_db_upload")
 dir_out <- "/home/r/Estudio_R/salidas"          # mismo directorio que 005
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-file_out <- file.path(dir_out, "004_registro_violencia.png")
+file_out <- file.path(dir_out, "008_registro_violencia.png")
 
 # ────────────────────────────────────────────────────────────────────────────────
 #  GRÁFICO ----------------------------------------------------------------------

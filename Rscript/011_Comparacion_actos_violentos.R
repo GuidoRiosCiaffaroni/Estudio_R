@@ -37,7 +37,7 @@ datos$genero_victima <- factor(datos$genero_victima,
 dir_out <- "/home/r/Estudio_R/salidas"            # mismo dir que 005
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-file_out <- file.path(dir_out, "007_violencia_hombres_mujeres.png")
+file_out <- file.path(dir_out, "011_violencia_hombres_mujeres.png")
 
 # 6. Gráfico ----------------------------------------------------------------------
 graf <- ggplot(datos, aes(x = nombre_violencia, fill = genero_victima)) +
