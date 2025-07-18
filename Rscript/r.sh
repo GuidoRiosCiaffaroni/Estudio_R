@@ -1,0 +1,10 @@
+#!/bin/bash
+Rscript 004_Grafico_Preliminar.R
+Rscript 005_Analisis_Grafico.R
+Rscript 006_Distribucion_de_registros_por_comuna.R
+Rscript 007_Dsitribucion_de_las_edades_de_las_victimas.R
+Rscript 008_Distribución_de_los_distintos_tipos_de_violencia.R
+Rscript 009_Violencia_cometida_hacia_las_mujeres.R
+Rscript 010_Violencia_cometida_hacia_los_hombres.R
+Rscript 011_Comparacion_actos_violentos.R
+
