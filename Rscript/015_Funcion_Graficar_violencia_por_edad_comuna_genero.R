@@ -96,9 +96,8 @@ graficar_violencia_por_edad_comuna_y_genero <- function(
 }
 
 ## 5. Ejemplo de uso =============================================================
-# (Opcional: comenta o elimina para ejecución batch)
 if (interactive()) {
-  genero <- 1                  # 1 = mujer, 0 = hombre
+  genero <- 1
   comuna <- "maipu"
   edad   <- 22
 
@@ -114,3 +113,6 @@ if (interactive()) {
     )
   )
 }
+
+## 6. Cerrar conexión explícitamente (evita el warning) -------------------------
+if (DBI::dbIsValid(con)) DBI::dbDisconnect(con)   # ▼
