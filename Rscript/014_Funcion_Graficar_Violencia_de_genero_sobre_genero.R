@@ -1,71 +1,101 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# 014 – Función para graficar violencia por género de víctima y agresor
+# 013 – Distribución de ingresos por hora del día
 # ────────────────────────────────────────────────────────────────────────────────
 
 # 1. Carga de librerías ----------------------------------------------------------
-if (!requireNamespace("dplyr",     quietly = TRUE)) install.packages("dplyr")
-if (!requireNamespace("ggplot2",   quietly = TRUE)) install.packages("ggplot2")
 if (!requireNamespace("janitor",   quietly = TRUE)) install.packages("janitor")
+if (!requireNamespace("RMariaDB",  quietly = TRUE)) install.packages("RMariaDB")
+if (!requireNamespace("lubridate", quietly = TRUE)) install.packages("lubridate")
 
+library(DBI)
+library(RMariaDB)
 library(dplyr)
 library(ggplot2)
 library(janitor)
+library(lubridate)
 
-# 2. Directorio de salida (igual que en el script 005) ---------------------------
-dir_out <- "/home/r/Estudio_R/salidas"
+# 2. Conexión --------------------------------------------------------------------
+con <- dbConnect(
+  MariaDB(),
+  dbname   = "wordpress",
+  host     = "localhost",
+  user     = "nuevo_admin",
+  password = "MiClaveSegura",
+  timezone = "UTC"
+)
+on.exit(dbDisconnect(con), add = TRUE)
+
+# 3. Lectura y limpieza ----------------------------------------------------------
+datos <- dbReadTable(con, "wp_db_upload") %>%
+  clean_names()                                                   # snake_case
+
+# 4. Cálculo de hora decimal -----------------------------------------------
+datos <- datos %>%
+  mutate(
+    fecha        = dmy_hm(fecha),                                 # “09-09-2021 14:09”
+    hora_decimal = hour(fecha) + minute(fecha) / 60
+  )
+
+# 5. Directorio y nombre de archivo ---------------------------------------------
+dir_out <- "/home/r/Estudio_R/salidas"                            # mismo dir que 005
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-# 3. Función para generar el gráfico --------------------------------------------
-graficar_violencia_por_genero <- function(archivo_csv,
-                                          genero_victima,
-                                          genero_agresor,
-                                          nombre_archivo) {
-  # Leer archivo CSV
-  datos <- read.csv2(archivo_csv, encoding = "UTF-8", stringsAsFactors = FALSE) %>%
-           janitor::clean_names()                                  # snake_case
+file_out <- file.path(dir_out, "014_ingresos_horario.png")
+
+# 6. Gráfico ---------------------------------------------------------------------
+###########################################################################
+###########################################################################
+# Funcion Graficar Violencia de genero sobre genero 
+graficar_violencia_por_genero <- function(datos, genero_victima = 1, genero_agresor = 1, salida = "grafico.png") {
+  library(ggplot2)
+  library(readr)
+  library(dplyr)
+  
+  # Leer archivo
+  datos <- read.csv2(datos, encoding = "UTF-8", stringsAsFactors = FALSE)
   
   # Convertir a numérico
-  datos$genero_victima <- as.numeric(datos$genero_victima)
-  datos$genero_agresor <- as.numeric(datos$genero_agresor)
+  datos$Genero.Victima <- as.numeric(as.character(datos$Genero.Victima))
+  datos$Genero.Agresor <- as.numeric(as.character(datos$Genero.Agresor))
   
-  # Filtrar según parámetros
+  # Filtrar
   datos_filtrados <- datos %>%
-    filter(genero_victima == genero_victima,
-           genero_agresor == genero_agresor)
+    filter(Genero.Victima == genero_victima,
+           Genero.Agresor == genero_agresor)
   
+  # Si no hay datos, no crear el gráfico
   if (nrow(datos_filtrados) == 0) {
     message("No se encontraron registros para esos géneros.")
-    return(invisible(NULL))
+    return(NULL)
   }
   
-  # Crear gráfico
-  graf <- ggplot(datos_filtrados, aes(x = nombre_violencia)) +
-    geom_bar(fill = "steelblue") +
-    labs(
-      title = paste("Tipos de Violencia – Víctima:", genero_victima,
-                    "| Agresor:", genero_agresor),
-      x = "Tipo de violencia",
-      y = "Frecuencia"
-    ) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
-  
-  # Ruta de salida
-  file_out <- file.path(dir_out, nombre_archivo)
-  
-  # Guardar gráfico
-  ggsave(
-    filename = file_out,
-    plot     = graf,
-    width    = 10,
-    height   = 7,
-    dpi      = 300
-  )
-  message("Gráfico guardado en: ", file_out)
+  # Intentar crear gráfico
+  tryCatch({
+    png(salida, width = 1000, height = 700)
+    print(
+      ggplot(datos_filtrados, aes(x = Nombre_Violencia)) +
+        geom_bar(fill = "steelblue") +
+        labs(
+          title = paste("Tipos de Violencia - Víctima:", genero_victima, "| Agresor:", genero_agresor),
+          x = "Tipo de Violencia",
+          y = "Frecuencia"
+        ) +
+        theme_minimal() +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    )
+    dev.off()
+    message(paste(" Gráfico guardado en:", salida))
+  }, error = function(e) {
+    message(" Error al generar el gráfico: ", e$message)
+    dev.off()  # cierra dispositivo en caso de error
+  })
 }
+###########################################################################
 
-# 4. Llamadas a la función -------------------------------------------------------
 graficar_violencia_por_genero("Data_modificado.csv", 1, 1, "014_mujeres_sobre_mujeres.png")
 graficar_violencia_por_genero("Data_modificado.csv", 0, 1, "014_mujeres_sobre_hombres.png")
 graficar_violencia_por_genero("Data_modificado.csv", 1, 0, "014_hombres_sobre_mujeres.png")
 graficar_violencia_por_genero("Data_modificado.csv", 0, 0, "014_hombres_sobre_hombres.png")
+
+############################################################################
+############################################################################

@@ -1,5 +1,5 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# 014 – Distribución de ingresos por hora del día
+# 013 – Distribución de ingresos por hora del día
 # ────────────────────────────────────────────────────────────────────────────────
 
 # 1. Carga de librerías ----------------------------------------------------------
@@ -40,16 +40,19 @@ datos <- datos %>%
 dir_out <- "/home/r/Estudio_R/salidas"                            # mismo dir que 005
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-file_out <- file.path(dir_out, "013_ingresos_horario.png")
+file_out <- file.path(dir_out, "014_ingresos_horario.png")
 
 # 6. Gráfico ---------------------------------------------------------------------
 ###########################################################################
 ###########################################################################
 # Funcion Graficar Violencia de genero sobre genero 
-
+graficar_violencia_por_genero <- function(datos, genero_victima = 1, genero_agresor = 1, salida = "grafico.png") {
+  library(ggplot2)
+  library(readr)
+  library(dplyr)
   
   # Leer archivo
-  datos <- read.csv2(archivo_csv, encoding = "UTF-8", stringsAsFactors = FALSE)
+  datos <- read.csv2(datos, encoding = "UTF-8", stringsAsFactors = FALSE)
   
   # Convertir a numérico
   datos$Genero.Victima <- as.numeric(as.character(datos$Genero.Victima))
