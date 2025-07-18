@@ -50,3 +50,4 @@ install.packages("shiny")
 
 install.packages("scatterplot3d")
 install.packages("rgl")
+install.packages("janitor")
