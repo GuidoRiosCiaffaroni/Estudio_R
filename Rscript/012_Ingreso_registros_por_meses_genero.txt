@@ -1,0 +1,58 @@
+# ────────────────────────────────────────────────────────────────────────────────
+# 011 – Comparación de actos violentos por género  |  Opción A (sin renombrar)
+# ────────────────────────────────────────────────────────────────────────────────
+
+# 1. Carga de librerías ----------------------------------------------------------
+if (!requireNamespace("janitor", quietly = TRUE)) install.packages("janitor")
+if (!requireNamespace("RMariaDB", quietly = TRUE)) install.packages("RMariaDB")
+
+library(DBI)
+library(RMariaDB)
+library(dplyr)
+library(ggplot2)
+library(janitor)
+library(lubridate)
+
+# 2. Conexión --------------------------------------------------------------------
+con <- dbConnect(
+  MariaDB(),
+  dbname   = "wordpress",
+  host     = "localhost",
+  user     = "nuevo_admin",
+  password = "MiClaveSegura",
+  timezone = "UTC"
+)
+on.exit(dbDisconnect(con), add = TRUE)
+
+# 3. Lectura y limpieza ----------------------------------------------------------
+datos <- dbReadTable(con, "wp_db_upload") %>%
+  clean_names()                                   # → snake_case
+
+###########################################################################
+
+
+# Convertir formato de fecha con hora: "09-09-2021 14:09"
+datos$Fecha <- dmy_hm(datos$Fecha)  # convierte a objeto POSIXct con hora
+
+# Extraer nombre del mes como texto ordenado
+datos$Mes <- factor(month(datos$Fecha, label = TRUE, abbr = FALSE),
+                    levels = month.name, ordered = TRUE)
+
+# Convertir Genero.Victima a factor con etiquetas
+datos$Genero.Victima <- factor(datos$Genero.Victima,
+                               levels = c(0, 1, 2),
+                               labels = c("Hombre", "Mujer", "Otro"))
+
+# Crear gráfico y guardar imagen
+png("008_Ingreso_PorMesesYGenero.png", width = 1200, height = 700)
+
+ggplot(datos, aes(x = Mes, fill = Genero.Victima)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Cantidad de Ingresos por Mes, diferenciados por Género",
+       x = "Mes del Año",
+       y = "Número de Ingresos",
+       fill = "Género de la Víctima") +
+  theme_minimal()
+
+dev.off()
+###########################################################################
