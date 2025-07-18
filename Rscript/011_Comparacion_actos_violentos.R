@@ -1,54 +1,60 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# 010 – Violencia cometida hacia los hombres  |  Opción A (sin renombrar columnas)
+# 011 – Comparación de actos violentos por género  |  Opción A (sin renombrar)
 # ────────────────────────────────────────────────────────────────────────────────
 
-# ── 1. Carga de librerías ───────────────────────────────────────────────────────
-# Instalar janitor solo si falta (primera vez)
-if (!requireNamespace("janitor", quietly = TRUE)) {
-  install.packages("janitor")
-}
+# 1. Carga de librerías ----------------------------------------------------------
+if (!requireNamespace("janitor", quietly = TRUE)) install.packages("janitor")
+if (!requireNamespace("RMariaDB", quietly = TRUE)) install.packages("RMariaDB")
 
-# install.packages(c("RMariaDB", "dplyr", "ggplot2"))  # si faltan
 library(DBI)
 library(RMariaDB)
 library(dplyr)
 library(ggplot2)
 library(janitor)
 
-# ── 2. Conexión a la base de datos ──────────────────────────────────────────────
+# 2. Conexión --------------------------------------------------------------------
 con <- dbConnect(
   MariaDB(),
   dbname   = "wordpress",
   host     = "localhost",
-  user     = "nuevo_admin",       # <-- ajusta si usas otro usuario
-  password = "MiClaveSegura",     # <-- ajusta tu clave
+  user     = "nuevo_admin",
+  password = "MiClaveSegura",
   timezone = "UTC"
 )
 on.exit(dbDisconnect(con), add = TRUE)
 
-# ── 3. Lectura y limpieza de datos ──────────────────────────────────────────────
-datos <- dbReadTable(con, "wp_db_upload") %>% 
-  clean_names()                                   # convierte a snake_case
+# 3. Lectura y limpieza ----------------------------------------------------------
+datos <- dbReadTable(con, "wp_db_upload") %>%
+  clean_names()                                   # → snake_case
 
-###########################################################################
-
-
-# Asegurar que la columna Genero.Victima esté en formato factor
-datos$Genero.Victima <- factor(datos$Genero.Victima,
+# 4. Conversión de género a factor ------------------------------------------------
+# 0 = Hombre | 1 = Mujer
+datos$genero_victima <- factor(datos$genero_victima,
                                levels = c(0, 1),
                                labels = c("Hombre", "Mujer"))
 
-# Crear gráfico y guardar como imagen PNG
-png("007_violencia_hombres_mujeres.png", width = 1200, height = 800)
+# 5. Directorio y archivo de salida ----------------------------------------------
+dir_out <- "/home/r/Estudio_R/salidas"            # mismo dir que 005
+if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-ggplot(datos, aes(x = Nombre_Violencia, fill = Genero.Victima)) +
+file_out <- file.path(dir_out, "007_violencia_hombres_mujeres.png")
+
+# 6. Gráfico ----------------------------------------------------------------------
+graf <- ggplot(datos, aes(x = nombre_violencia, fill = genero_victima)) +
   geom_bar(position = "dodge") +
   labs(title = "Comparación de Tipos de Violencia Sufrida por Hombres y Mujeres",
-       x = "Tipo de Violencia",
+       x = "Tipo de violencia",
        y = "Frecuencia",
-       fill = "Género de la Víctima") +
+       fill = "Género de la víctima") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-dev.off()
-###########################################################################
+ggsave(
+  filename = file_out,
+  plot     = graf,
+  width    = 12,      # pulgadas
+  height   = 7,
+  dpi      = 300
+)
+
+message("Gráfico guardado en: ", file_out)
