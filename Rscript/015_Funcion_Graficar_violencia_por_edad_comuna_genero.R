@@ -1,18 +1,19 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# 015_Funcion_Graficar_violencia_por_edad_comuna_genero.R
-# Genera un gráfico de barras con datos de `wp_db_upload` (MariaDB “wordpress”)
-# Filtra por edad, comuna y género. Guarda el PNG en /home/r/Estudio_R/salidas
+# 015_grafico_violencia.R
+# Genera un gráfico PNG de tipos de violencia según edad, comuna y género
+# Fuente de datos: tabla `wp_db_upload` en la BD MariaDB “wordpress”.
+# El PNG se guarda en /home/r/Estudio_R/salidas
 # ────────────────────────────────────────────────────────────────────────────────
 
-## 1. Librerías ==================================================================
+## 1. Librerías =================================================================
 paquetes <- c("RMariaDB", "DBI", "dbplyr", "dplyr", "janitor", "ggplot2")
 instalar <- paquetes[!vapply(paquetes, requireNamespace,
                              quietly = TRUE, FUN.VALUE = logical(1))]
 if (length(instalar)) install.packages(instalar)
 
-library(DBI)          # Conexión a bases de datos
+library(DBI)          # Conexión bases de datos
 library(RMariaDB)     # Driver MariaDB/MySQL
-library(dbplyr)       # Traducción dplyr ↔ SQL
+library(dbplyr)       # dplyr ↔ SQL
 library(dplyr)        # Manipulación de datos
 library(janitor)      # Limpieza de nombres de columnas
 library(ggplot2)      # Gráficos
@@ -26,11 +27,12 @@ con <- dbConnect(
   MariaDB(),
   dbname   = "wordpress",
   host     = "localhost",
-  user     = "nuevo_admin",      # ← credenciales solicitadas
+  user     = "nuevo_admin",
   password = "MiClaveSegura",
   timezone = "UTC"
 )
-on.exit(dbDisconnect(con), add = TRUE)       # Cierra conexión al terminar
+# Si algo falla más adelante, la conexión se cerrará
+on.exit(if (DBI::dbIsValid(con)) DBI::dbDisconnect(con), add = TRUE)
 
 ## 4. Función para graficar ======================================================
 graficar_violencia_por_edad_comuna_y_genero <- function(
@@ -42,10 +44,9 @@ graficar_violencia_por_edad_comuna_y_genero <- function(
   con_bd  = con,
   tabla   = "wp_db_upload"
 ) {
-  # 4.1 Normalizar comuna
   nombre_comuna <- tolower(nombre_comuna)
 
-  # 4.2 Filtrado en SQL y recogida
+  # 4.1 Filtrado en el servidor SQL
   datos_filtrados <- tbl(con_bd, tabla) %>%
     janitor::clean_names() %>%
     filter(
@@ -55,7 +56,6 @@ graficar_violencia_por_edad_comuna_y_genero <- function(
     ) %>%
     collect()
 
-  # 4.3 Validación
   if (nrow(datos_filtrados) == 0) {
     message(
       "Sin registros para la comuna '", nombre_comuna,
@@ -65,7 +65,7 @@ graficar_violencia_por_edad_comuna_y_genero <- function(
     return(invisible(NULL))
   }
 
-  # 4.4 Gráfico
+  # 4.2 Gráfico
   p <- ggplot(datos_filtrados, aes(x = nombre_violencia)) +
     geom_bar(fill = "tomato") +
     labs(
@@ -81,38 +81,34 @@ graficar_violencia_por_edad_comuna_y_genero <- function(
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-  # 4.5 Guardar PNG
+  # 4.3 Guardar PNG
   archivo_salida <- file.path(dir_out, salida)
-  ggsave(
-    filename = archivo_salida,
-    plot     = p,
-    width    = 10,
-    height   = 7,
-    dpi      = 300
-  )
+  ggsave(archivo_salida, p, width = 10, height = 7, dpi = 300)
 
   message("Gráfico guardado en: ", archivo_salida)
   invisible(archivo_salida)
 }
 
-## 5. Ejemplo de uso =============================================================
-if (interactive()) {
-  genero <- 1
-  comuna <- "maipu"
-  edad   <- 22
+## 5. Parámetros del gráfico =====================================================
+# ——— Personaliza aquí los valores que necesites ———
+genero <- 1           # 1 = mujer, 0 = hombre (ajusta a tu codificación)
+comuna <- "maipu"
+edad   <- 22
 
-  graficar_violencia_por_edad_comuna_y_genero(
-    edad_objetivo  = edad,
-    nombre_comuna  = comuna,
-    genero_victima = genero,
-    salida         = sprintf(
-      "011_violencia_%s_%s_%d.png",
-      comuna,
-      ifelse(genero == 1, "mujer", "hombre"),
-      edad
-    )
-  )
-}
+nombre_archivo <- sprintf(
+  "011_violencia_%s_%s_%d.png",
+  comuna,
+  ifelse(genero == 1, "mujer", "hombre"),
+  edad
+)
 
-## 6. Cerrar conexión explícitamente (evita el warning) -------------------------
-if (DBI::dbIsValid(con)) DBI::dbDisconnect(con)   # ▼
+## 6. Llamada a la función (siempre se ejecuta) =================================
+graficar_violencia_por_edad_comuna_y_genero(
+  edad_objetivo  = edad,
+  nombre_comuna  = comuna,
+  genero_victima = genero,
+  salida         = nombre_archivo
+)
+
+## 7. Cerrar conexión explícitamente (evita warnings) ===========================
+if (DBI::dbIsValid(con)) DBI::dbDisconnect(con)
