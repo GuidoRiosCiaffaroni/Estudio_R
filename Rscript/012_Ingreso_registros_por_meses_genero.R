@@ -48,7 +48,7 @@ datos <- datos %>%
 dir_out <- "/home/r/Estudio_R/salidas"        # mismo directorio que 005
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
-file_out <- file.path(dir_out, "008_ingreso_meses_genero.png")
+file_out <- file.path(dir_out, "012_ingreso_meses_genero.png")
 
 # 6. Gráfico ---------------------------------------------------------------------
 graf <- ggplot(datos, aes(x = mes, fill = genero_victima)) +
