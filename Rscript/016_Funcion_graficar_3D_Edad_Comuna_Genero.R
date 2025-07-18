@@ -1,13 +1,10 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# 016_grafico_violencia_3d.R
-# Gráfico 3D (Edad, Comuna, Género de la víctima) a partir de la tabla
-# `wp_db_upload` de la base de datos MariaDB “wordpress”.
-# El/los PNG se guardan en /home/r/Estudio_R/salidas
+# 016_grafico_violencia_3d.R  (versión corregida)
 # ────────────────────────────────────────────────────────────────────────────────
 
 ## 1. Librerías =================================================================
 paquetes <- c("RMariaDB", "DBI", "dbplyr", "dplyr", "janitor",
-              "scatterplot3d", "ggplot2")
+              "scatterplot3d")
 instalar <- paquetes[!vapply(paquetes, requireNamespace,
                              quietly = TRUE, FUN.VALUE = logical(1))]
 if (length(instalar)) install.packages(instalar)
@@ -17,7 +14,7 @@ library(RMariaDB)
 library(dbplyr)
 library(dplyr)
 library(janitor)
-library(scatterplot3d)   # gráfico 3D estático y ligero
+library(scatterplot3d)
 
 ## 2. Directorio de salida =======================================================
 dir_out_global <- "/home/r/Estudio_R/salidas"
@@ -42,42 +39,39 @@ graficar_violencia_3d <- function(
   con_bd         = con,
   tabla          = "wp_db_upload"
 ) {
-
-  # 4.1 Seleccionar y filtrar vía SQL
+  # 4.1 Normalizar nombres primero
   datos_tbl <- tbl(con_bd, tabla) %>%
-    select(edad, genero_victima, nombre_comuna) %>%   # solo columnas necesarias
-    filter(!is.na(edad), !is.na(genero_victima), !is.na(nombre_comuna))
+    janitor::clean_names()                       # → edad, genero_victima, nombre_comuna
 
+  # 4.2 Filtro opcional por género
   if (!is.null(genero_victima)) {
     datos_tbl <- datos_tbl %>% filter(genero_victima == !!genero_victima)
   }
 
-  # 4.2 Descargar resultados
+  # 4.3 Filtrado de NAs y descarga
   datos <- datos_tbl %>%
-    collect() %>%
-    clean_names()                                   # snake_case: edad, genero_victima…
+    filter(!is.na(edad), !is.na(genero_victima), !is.na(nombre_comuna)) %>%
+    select(edad, genero_victima, nombre_comuna) %>%
+    collect()
 
-  # 4.3 Validación
+  # 4.4 Validación
   if (nrow(datos) == 0) {
     message("No hay datos para el criterio especificado.")
     return(invisible(NULL))
   }
 
-  # 4.4 Codificación de comuna
+  # 4.5 Codificar comuna
   datos <- datos %>%
-    mutate(
-      comuna_cod = as.numeric(factor(nombre_comuna, ordered = FALSE))
-    )
+    mutate(comuna_cod = as.numeric(factor(nombre_comuna)))
 
-  # 4.5 Generar gráfico
+  # 4.6 Generar PNG
   archivo_png <- file.path(dir_out, salida)
-
   tryCatch({
     png(filename = archivo_png, width = 1000, height = 800)
     scatterplot3d(
-      x     = datos$edad,
-      y     = datos$comuna_cod,
-      z     = datos$genero_victima,
+      x = datos$edad,
+      y = datos$comuna_cod,
+      z = datos$genero_victima,
       pch   = 16,
       color = "steelblue",
       xlab  = "Edad",
@@ -95,23 +89,12 @@ graficar_violencia_3d <- function(
   invisible(archivo_png)
 }
 
-## 5. Ejecuciones ejemplo ========================================================
-# Todas las víctimas
-graficar_violencia_3d(
-  salida = "012_violencia_3d_todas.png"
-)
+## 5. Generar los tres gráficos ==================================================
+graficar_violencia_3d(salida = "012_violencia_3d_todas.png")        # todos
+graficar_violencia_3d(genero_victima = 1,
+                      salida = "012_violencia_3d_mujeres.png")      # mujeres
+graficar_violencia_3d(genero_victima = 0,
+                      salida = "012_violencia_3d_hombres.png")      # hombres
 
-# Solo mujeres (1)
-graficar_violencia_3d(
-  genero_victima = 1,
-  salida         = "012_violencia_3d_mujeres.png"
-)
-
-# Solo hombres (0)
-graficar_violencia_3d(
-  genero_victima = 0,
-  salida         = "012_violencia_3d_hombres.png"
-)
-
-## 6. Cierre explícito de la conexión ===========================================
+## 6. Cerrar conexión explícitamente ============================================
 if (DBI::dbIsValid(con)) DBI::dbDisconnect(con)
