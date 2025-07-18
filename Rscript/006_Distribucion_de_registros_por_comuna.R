@@ -18,33 +18,43 @@ con <- dbConnect(
   host     = "localhost",
   user     = "nuevo_admin",
   password = "MiClaveSegura",
-  timezone = "UTC"          # Evita desfases si tu servidor usa otra zona
+  timezone = "UTC"
 )
-
-# Garantiza desconexión aunque ocurra un error
 on.exit(dbDisconnect(con), add = TRUE)
 
 # ────────────────────────────────────────────────────────────────────────────────
 #  LECTURA DE DATOS -------------------------------------------------------------
 # ────────────────────────────────────────────────────────────────────────────────
-# Usa dbReadTable sólo si la tabla no es enorme; para filtros grandes, prefiere
-# dbGetQuery("SELECT campos_necesarios FROM ... WHERE ...")
 datos <- dbReadTable(con, "wp_db_upload")
 
-###########################################################################
+# ────────────────────────────────────────────────────────────────────────────────
+#  DIRECTORIO Y SALIDA DE GRÁFICOS ---------------------------------------------
+# ────────────────────────────────────────────────────────────────────────────────
+# Directorio de salida (igual que en 005)
+dir_out <- "/home/r/Estudio_R/salidas"
+if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
+# Nombre de archivo
+file_out <- file.path(dir_out, "002_distribucion_comunas.png")
 
-# Crear gráfico y guardar como imagen PNG
-png("002_distribucion_comunas.png", width = 1000, height = 800)
-
-ggplot(datos, aes(x = Nombre_Comuna)) +
+# ────────────────────────────────────────────────────────────────────────────────
+#  GRÁFICO ----------------------------------------------------------------------
+# ────────────────────────────────────────────────────────────────────────────────
+graf <- ggplot(datos, aes(x = Nombre_Comuna)) +
   geom_bar(fill = "darkorange") +
   labs(title = "Distribución de casos por Comuna",
        x = "Comuna",
        y = "Frecuencia") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))  # Rotar nombres
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-dev.off()
-###########################################################################
-message("Gráficos generados correctamente en: ", dir_out)
+ggsave(
+  filename = file_out,
+  plot     = graf,
+  width    = 10,      # pulgadas
+  height   = 8,
+  dpi      = 300
+)
+
+message("Gráfico guardado correctamente en: ", file_out)
+
