@@ -1,0 +1,17 @@
+#!/bin/bash
+Rscript 004_Grafico_Preliminar.R
+Rscript 005_Analisis_Grafico.R
+Rscript 006_Distribucion_de_registros_por_comuna.R
+Rscript 007_Dsitribucion_de_las_edades_de_las_victimas.R
+Rscript 008_Distribución_de_los_distintos_tipos_de_violencia.R
+Rscript 009_Violencia_cometida_hacia_las_mujeres.R
+Rscript 010_Violencia_cometida_hacia_los_hombres.R
+Rscript 011_Comparacion_actos_violentos.R
+Rscript 012_Ingreso_registros_por_meses_genero.R
+Rscript 013_Ingreso_Registros_Diferenciados_Mes_Genero.R
+Rscript 014_Funcion_Graficar_Violencia_de_genero_sobre_genero.R
+Rscript 015_Funcion_Graficar_violencia_por_edad_comuna_genero.R
+Rscript 016_Funcion_graficar_3D_Edad_Comuna_Genero.R
+
+
+
