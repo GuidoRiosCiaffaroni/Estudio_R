@@ -1,7 +1,7 @@
 # ────────────────────────────────────────────────────────────────────────────────
 #  ANALISIS ESTADÍSTICO ESPECÍFICO – wp_db_upload
 #  Columnas: Edad (num), Nombre_Genero_Victima_Texto (cat), Nombre_Comuna (cat)
-#  Autor   : <tu_nombre>
+#  Autor   : Guido Rios Ciaffaroni
 #  Fecha   : Sys.Date()
 # ────────────────────────────────────────────────────────────────────────────────
 #  OBJETIVO
