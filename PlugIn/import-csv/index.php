@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: CSV Importer
- * Plugin URI:  https://fundacionkimen/plugin/csv-importer
+ * Plugin Name: CSV Import
+ * Plugin URI:  https://fundacionkimen/plugin/csv-import
  * Description: Importa archivos CSV desde el escritorio de WordPress y almacena los datos en una tabla personalizada. Incluye un shortcode para mostrar los datos en el frontend.
  * Version:     0.1.0
  * Author:      Guido Rios Ciaffaroni
  * License:     GPLv2 or later
- * Text Domain: csv-importer
+ * Text Domain: csv-import
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -87,7 +87,7 @@ class CSV_Importer_Plugin {
             $this->handle_upload();
         }
 
-        echo '<div class="wrap"><h1>CSV Importer</h1>';
+        echo '<div class="wrap"><h1>CSV Import</h1>';
         echo '<form method="post" enctype="multipart/form-data">';
         wp_nonce_field( 'csv_importer_upload', 'csv_importer_nonce' );
         echo '<input type="file" name="csv_file" accept=".csv" required style="margin-bottom:10px;">';
