@@ -12,7 +12,7 @@
 #    host      : Host DB.                                                        
 #    user      : Usuario.                                                        
 #    password  : Password.                                                       
-#    dir_out   : Carpeta de salida (def. "/home/r/Estudio_R/salidas").          
+#    dir_out   : Carpeta de salida (def. "/var/www/wordpress/wp-content/plugins/sh-executor/archives").          
 #                                                                               
 #  Retorna                                                                       
 #    Lista con data.frame del filtro y tibble de resultados, invisiblemente.    
@@ -25,7 +25,7 @@ analiza_wp_upload <- function(edad      = NULL,
                               host      = "localhost",
                               user      = "nuevo_admin",
                               password  = "MiClaveSegura",
-                              dir_out   = "/home/r/Estudio_R/salidas") {
+                              dir_out   = "/var/www/wordpress/wp-content/plugins/sh-executor/archives") {
 
   # ──────────────────────────────────────────────────────────────────
   #  Librerías -------------------------------------------------------

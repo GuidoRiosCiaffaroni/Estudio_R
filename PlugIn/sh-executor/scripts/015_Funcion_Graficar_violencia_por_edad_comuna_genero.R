@@ -2,7 +2,7 @@
 # 015_grafico_violencia.R
 # Genera un gráfico PNG de tipos de violencia según edad, comuna y género
 # Fuente de datos: tabla `wp_db_upload` en la BD MariaDB “wordpress”.
-# El PNG se guarda en /home/r/Estudio_R/salidas
+# El PNG se guarda en /var/www/wordpress/wp-content/plugins/sh-executor/archives
 # ────────────────────────────────────────────────────────────────────────────────
 
 ## 1. Librerías =================================================================
@@ -19,7 +19,7 @@ library(janitor)      # Limpieza de nombres de columnas
 library(ggplot2)      # Gráficos
 
 ## 2. Directorio de salida =======================================================
-dir_out_global <- "/home/r/Estudio_R/salidas"
+dir_out_global <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out_global)) dir.create(dir_out_global, recursive = TRUE)
 
 ## 3. Conexión a la base de datos “wordpress” ====================================
@@ -96,7 +96,7 @@ comuna <- "maipu"
 edad   <- 22
 
 nombre_archivo <- sprintf(
-  "011_violencia_%s_%s_%d.png",
+  "015_FuncionParametro_violencia_%s_%s_%d.png",
   comuna,
   ifelse(genero == 1, "mujer", "hombre"),
   edad

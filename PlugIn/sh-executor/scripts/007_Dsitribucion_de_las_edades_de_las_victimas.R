@@ -30,7 +30,7 @@ datos <- dbReadTable(con, "wp_db_upload")
 # ────────────────────────────────────────────────────────────────────────────────
 #  DIRECTORIO Y SALIDA DE GRÁFICOS ---------------------------------------------
 # ────────────────────────────────────────────────────────────────────────────────
-dir_out <- "/home/r/Estudio_R/salidas"          #
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"          #
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 file_out <- file.path(dir_out, "007_distribucion_edades.png")

@@ -14,8 +14,8 @@ library(janitor)
 library(dplyr)
 library(ggplot2)
 
-# 2. Directorio de salida (igual que en el script 005) ──────────────────────────
-dir_out <- "/home/r/Estudio_R/salidas"
+# 2. Directorio de salida  ──────────────────────────
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 # 3. Conexión a la base de datos “wordpress” ────────────────────────────────────

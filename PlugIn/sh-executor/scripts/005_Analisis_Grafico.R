@@ -69,7 +69,7 @@ datos <- datos %>%
   )
 
 # Directorio de salida (créalo si no existe)
-dir_out <- "/home/r/Estudio_R/salidas"
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 # ────────────────────────────────────────────────────────────────────────────────

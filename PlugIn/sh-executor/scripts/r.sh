@@ -12,6 +12,9 @@ Rscript 013_Ingreso_Registros_Diferenciados_Mes_Genero.R
 Rscript 014_Funcion_Graficar_Violencia_de_genero_sobre_genero.R
 Rscript 015_Funcion_Graficar_violencia_por_edad_comuna_genero.R
 Rscript 016_Funcion_graficar_3D_Edad_Comuna_Genero.R
+Rscript 017_Funciones_Ejemplo.R
+Rscript 018_Funciones_EstudioPreliminar.R
+Rscript 021_Funciones_ParaEstudio_V3.R*
 
 
 

@@ -37,7 +37,7 @@ datos <- datos %>%
   )
 
 # 5. Directorio y nombre de archivo ---------------------------------------------
-dir_out <- "/home/r/Estudio_R/salidas"                            # mismo dir que 005
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 file_out <- file.path(dir_out, "013_ingresos_horario.png")

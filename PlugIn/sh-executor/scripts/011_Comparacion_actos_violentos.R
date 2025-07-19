@@ -34,7 +34,7 @@ datos$genero_victima <- factor(datos$genero_victima,
                                labels = c("Hombre", "Mujer"))
 
 # 5. Directorio y archivo de salida ----------------------------------------------
-dir_out <- "/home/r/Estudio_R/salidas"            # mismo dir que 005
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 file_out <- file.path(dir_out, "011_violencia_hombres_mujeres.png")

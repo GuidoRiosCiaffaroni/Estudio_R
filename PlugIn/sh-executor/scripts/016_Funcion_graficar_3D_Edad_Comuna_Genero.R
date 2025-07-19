@@ -17,7 +17,7 @@ library(janitor)
 library(scatterplot3d)
 
 ## 2. Directorio de salida =======================================================
-dir_out_global <- "/home/r/Estudio_R/salidas"
+dir_out_global <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out_global)) dir.create(dir_out_global, recursive = TRUE)
 
 ## 3. Conexión a la base “wordpress” ============================================
@@ -90,11 +90,11 @@ graficar_violencia_3d <- function(
 }
 
 ## 5. Generar los tres gráficos ==================================================
-graficar_violencia_3d(salida = "012_violencia_3d_todas.png")        # todos
+graficar_violencia_3d(salida = "016_violencia_3d_todas.png")        # todos
 graficar_violencia_3d(genero_victima = 1,
-                      salida = "012_violencia_3d_mujeres.png")      # mujeres
+                      salida = "016_violencia_3d_mujeres.png")      # mujeres
 graficar_violencia_3d(genero_victima = 0,
-                      salida = "012_violencia_3d_hombres.png")      # hombres
+                      salida = "016_violencia_3d_hombres.png")      # hombres
 
 ## 6. Cerrar conexión explícitamente ============================================
 if (DBI::dbIsValid(con)) DBI::dbDisconnect(con)

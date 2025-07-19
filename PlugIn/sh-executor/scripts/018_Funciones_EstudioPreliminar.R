@@ -1,7 +1,7 @@
 # ────────────────────────────────────────────────────────────────────────────────
 #  ANALISIS ESTADÍSTICO ESPECÍFICO – wp_db_upload
 #  Columnas: Edad (num), Nombre_Genero_Victima_Texto (cat), Nombre_Comuna (cat)
-#  Autor   : <tu_nombre>
+#  Autor   : Guido Rios Ciaffaroni
 #  Fecha   : Sys.Date()
 # ────────────────────────────────────────────────────────────────────────────────
 #  OBJETIVO
@@ -91,7 +91,7 @@ aov_res <- broom::tidy(aov(Edad ~ Nombre_Genero_Victima_Texto, data = datos))
 # ────────────────────────────────────────────────────────────────────────────────
 #  8. Exportación ---------------------------------------------------------------
 # ────────────────────────────────────────────────────────────────────────────────
-dir_out <- "/home/r/Estudio_R/salidas"
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 write.csv(datos,         file.path(dir_out, "datos_filtrados.csv"),        row.names = FALSE)

@@ -10,7 +10,7 @@
 #    plot_3d   : Lógico. Si TRUE genera un scatterplot 3D (PNG).                
 #    db_name   : Nombre de la BD (def. "wordpress").                            
 #    host, user, password: credenciales BD.                                      
-#    dir_out   : Carpeta salida (def. "/home/r/Estudio_R/salidas").             
+#    dir_out   : Carpeta salida (def. "/var/www/wordpress/wp-content/plugins/sh-executor/archives").             
 #                                                                               
 #  Retorna                                                                       
 #    Lista con los data.frame de resultados (invisible).                        
@@ -24,7 +24,7 @@ analiza_wp_upload <- function(edad      = NULL,
                               host      = "localhost",
                               user      = "nuevo_admin",
                               password  = "MiClaveSegura",
-                              dir_out   = "/home/r/Estudio_R/salidas") {
+                              dir_out   = "/var/www/wordpress/wp-content/plugins/sh-executor/archives") {
 
   # ──────────────────────────────────────────────────────────────────
   #  Librerías -------------------------------------------------------
