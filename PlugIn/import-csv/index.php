@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CSV Import
  * Plugin URI:  https://fundacionkimen/plugin/csv-import
- * Description: Importa archivos CSV desde el escritorio de WordPress y almacena los datos en una tabla personalizada. Incluye un shortcode para mostrar los datos en el frontend.
+ * Description: Ejecuta scripts .sh almacenados dentro de la carpeta del propio plugin (subcarpeta "scripts") mediante la interfaz de administración.
  * Version:     0.1.0
  * Author:      Guido Rios Ciaffaroni
  * License:     GPLv2 or later
