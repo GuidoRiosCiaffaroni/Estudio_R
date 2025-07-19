@@ -11,13 +11,14 @@
  * Domain Path: /languages
  */
 
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
 final class PNG_Gallery_Viewer {
 
-    const VERSION      = '1.1.0';
+    const VERSION      = '1.2.0';
     const TEXT_DOMAIN  = 'png-gallery-viewer';
     const STYLE_HANDLE = 'png-gallery-viewer-style';
 
@@ -53,14 +54,18 @@ final class PNG_Gallery_Viewer {
         $atts = shortcode_atts(
             [
                 'columns' => 4,    // Nº de columnas (1‑6)
-                'lazy'    => 'yes' // Carga diferida
+                'lazy'    => 'yes',
+                'width'   => '',   // Ancho en px (vacío = responsive)
+                'height'  => ''    // Alto  en px (vacío = auto)
             ],
             $atts,
             'png_gallery'
         );
 
         $columns = max( 1, min( 6, absint( $atts['columns'] ) ) );
-        $lazy     = ( 'yes' === strtolower( $atts['lazy'] ) );
+        $lazy    = ( 'yes' === strtolower( $atts['lazy'] ) );
+        $width   = trim( $atts['width'] );
+        $height  = trim( $atts['height'] );
 
         if ( ! is_dir( $this->dir_path ) || ! is_readable( $this->dir_path ) ) {
             return esc_html__( 'Directory not found or not readable.', self::TEXT_DOMAIN );
@@ -78,9 +83,18 @@ final class PNG_Gallery_Viewer {
         // Construir galería.
         $html  = '<div class="png-gallery-viewer" style="--pgv-columns:' . esc_attr( $columns ) . ';">';
         foreach ( $files as $file ) {
-            $url   = esc_url( $this->dir_url . basename( $file ) );
-            $alt   = esc_attr( basename( $file ) );
-            $html .= '<figure class="pgv-item"><img src="' . $url . '" alt="' . $alt . '"' . ( $lazy ? ' loading="lazy"' : '' ) . '></figure>';
+            $url  = esc_url( $this->dir_url . basename( $file ) );
+            $alt  = esc_attr( basename( $file ) );
+            $style = '';
+
+            if ( $width !== '' || $height !== '' ) {
+                $style_attr = [];
+                if ( $width  !== '' && is_numeric( $width ) )  { $style_attr[] = 'width:' . absint( $width ) . 'px';  }
+                if ( $height !== '' && is_numeric( $height ) ) { $style_attr[] = 'height:' . absint( $height ) . 'px'; }
+                $style = ' style="' . esc_attr( implode( ';', $style_attr ) ) . '"';
+            }
+
+            $html .= '<figure class="pgv-item"><img src="' . $url . '" alt="' . $alt . '"' . ( $lazy ? ' loading="lazy"' : '' ) . $style . '></figure>';
         }
         $html .= '</div>';
 
