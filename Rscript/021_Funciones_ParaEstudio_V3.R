@@ -142,7 +142,7 @@ analiza_wp_upload <- function(edad      = NULL,
   write.csv(chi_res,       file.path(dir_out, "chi_genero_comuna.csv"),     row.names = FALSE)
   write.csv(aov_res,       file.path(dir_out, "anova_edad_genero.csv"),     row.names = FALSE)
 
-  message("✔️  Análisis completo. Resultados y gráficos en: ", normalizePath(dir_out))
+  message(" Análisis completo. Resultados y gráficos en: ", normalizePath(dir_out))
   invisible(list(datos = datos,
                  resumen_edad = resumen_edad,
                  freq_genero = freq_genero,
