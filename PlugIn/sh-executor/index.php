@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: CSV Importer
- * Plugin URI:  https://example.com/csv-importer
+ * Plugin Name: SH Executor
+ * Plugin URI:  https://fundacionkimen/plugin/sh-executor
  * Description: Importa archivos CSV desde el escritorio de WordPress y almacena los datos en una tabla personalizada. Incluye un shortcode para mostrar los datos en el frontend.
  * Version:     0.1.0
- * Author:      Tu Nombre
+ * Author:      Guido Rios Ciaffaroni
  * License:     GPLv2 or later
- * Text Domain: csv-importer
+ * Text Domain: sh-executor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
