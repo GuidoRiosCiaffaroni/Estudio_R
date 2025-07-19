@@ -139,7 +139,7 @@ analiza_wp_upload <- function(edad      = NULL,
 #  EJEMPLOS DE USO -------------------------------------------------------------
 # ───────────────────────────────────────────────────────────────────────────────
 # 1) Análisis completo (sin filtros)
-# analiza_wp_upload()
+ analiza_wp_upload()
 #
 # 2) Solo género "Femenino" y comuna "Santiago"
 # analiza_wp_upload(genero = "Femenino", comuna = "Santiago")
