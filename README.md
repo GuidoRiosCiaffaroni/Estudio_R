@@ -2,6 +2,17 @@
 ## Programación con R | Master Data Science | Universidad de las Américas (UDLA.)
 
 
+
+[[Ver video 001]](https://github.com/GuidoRiosCiaffaroni/Estudio_R/blob/main/Videos/001.mp4)
+
+[[Ver video 002]](https://github.com/GuidoRiosCiaffaroni/Estudio_R/blob/main/Videos/002.mp4)
+
+[[Ver video 003]](https://github.com/GuidoRiosCiaffaroni/Estudio_R/blob/main/Videos/003.mp4)
+
+
+
+
+
 ### 1. Introducción General
 
 **1.1. Contextualización del Problema**
@@ -439,21 +450,32 @@ Este script permite desplegar un entorno completo de análisis estadístico y ci
 ```bash
 #!/bin/bash
 
+# Script para instalar R, RStudio Desktop y RStudio Server en Ubuntu
+
+# Actualiza la lista de paquetes disponibles
 sudo apt update
+
+# Actualiza todos los paquetes instalados a su última versión
 sudo apt upgrade -y
 
+# Instala soporte para localización de idiomas (idiomas, codificaciones)
 sudo apt install -y locales
 
+# Instala herramientas necesarias para la gestión de claves y repositorios externos
 sudo apt install -y dirmngr 
 sudo apt install gnupg -y 
 sudo apt install apt-transport-https -y 
 sudo apt install ca-certificates -y
 sudo apt install software-properties-common -y
 
-#paquete suplementarios
+# Instala bibliotecas de desarrollo necesarias para compilar paquetes R que dependen de componentes gráficos, red o cifrado
+
+# Conectividad y seguridad
 sudo apt install libcurl4-openssl-dev -y 
 sudo apt install libssl-dev -y
 sudo apt install libxml2-dev -y
+
+# Requisitos para visualización, fuentes y gráficos
 sudo apt install libfontconfig1-dev -y 
 sudo apt install libharfbuzz-dev -y
 sudo apt install libfribidi-dev -y
@@ -462,6 +484,7 @@ sudo apt install libpng-dev -y
 sudo apt install libtiff5-dev -y
 sudo apt install libjpeg-dev -y
 
+# (Repetidos, aunque inofensivos; pueden eliminarse si se desea optimizar)
 sudo apt install libcurl4-openssl-dev -y 
 sudo apt install libssl-dev -y 
 sudo apt install libxml2-dev -y
@@ -472,29 +495,57 @@ sudo apt install libfreetype6-dev -y
 sudo apt install libpng-dev -y
 sudo apt install libtiff5-dev -y
 sudo apt install libjpeg-dev -y
+
+# Herramientas esenciales de compilación (make, gcc, etc.)
 sudo apt install build-essential -y
 
+# Herramienta para descargar archivos desde internet
 sudo apt install wget -y
 
+# Agrega la clave pública del repositorio de R (CRAN)
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9
+
+# Agrega el repositorio oficial de R para Ubuntu 24.04 "Noble"
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/"
 
+# Actualiza la lista de paquetes para incluir los del nuevo repositorio de R
 sudo apt update
+
+# Instala la base del lenguaje R
 sudo apt install -y r-base
 
-# 
+# Descarga RStudio Desktop (versión específica para Ubuntu 22.04 compatible con muchos entornos)
 wget https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.05.0-496-amd64.deb
+
+# Da permisos de ejecución total al archivo .deb descargado (no estrictamente necesario, pero puede facilitar instalación)
 chmod 777 rstudio-2025.05.0-496-amd64.deb
+
+# Instala RStudio Desktop desde el archivo .deb
 sudo dpkg -i rstudio-*.deb
+
+# Corrige dependencias faltantes que podrían haber surgido durante la instalación
 sudo apt install -f
 
+# Descarga RStudio Server (versión compatible con Ubuntu 22.04)
 wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.0-735-amd64.deb
+
+# Instala RStudio Server directamente desde el archivo .deb
 sudo apt install ./rstudio-server-2024.04.0-735-amd64.deb
 
+# Abre R desde consola sin guardar la sesión y ejecuta la instalación de paquetes esenciales
 sudo R --no-save <<EOF
-install.packages("tidyverse", repos="https://cloud.r-project.org")
-install.packages("ggplot2", repos="https://cloud.r-project.org")
+install.packages("tidyverse", repos="https://cloud.r-project.org")  # Conjunto de paquetes para ciencia de datos
+install.packages("ggplot2", repos="https://cloud.r-project.org")    # Paquete de visualización
 EOF
+
+
+
+
+
+
+
+
+
 ```
 
 #### Configuracion R
