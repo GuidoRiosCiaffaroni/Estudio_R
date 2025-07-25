@@ -130,67 +130,103 @@ Además, se incluyen utilidades como wget, unzip, ca-certificates y gnupg2 para 
 Finalmente, el script realiza una limpieza de paquetes innecesarios (apt autoremove) y reinicia los servicios de Apache y MySQL/MariaDB para aplicar los cambios. Este procedimiento deja el sistema listo para desplegar aplicaciones web en PHP con soporte de base de datos.
 ```bash
 ## 
-sudo apt update -y 
+#!/bin/bash
+
+############################################################################################################
+# Actualización del sistema: se actualiza la lista de paquetes disponibles y se aplican actualizaciones
+############################################################################################################
+sudo apt update -y
 sudo apt upgrade -y
 
-sudo apt install nano -y
+############################################################################################################
+# Instalación de herramientas útiles para monitoreo, administración del sistema, y utilidades varias
+############################################################################################################
+apt-get install -y apg                         # Generador de contraseñas aleatorias seguras
+apt-get install -y atop                        # Monitor avanzado de uso de recursos del sistema
+apt-get install -y bmon                        # Monitor de ancho de banda en tiempo real
+apt-get install -y byobu                       # Entorno de terminal con paneles y multiplexación
+apt-get install -y ccze                        # Colorea logs para facilitar la lectura
+apt-get install -y cmatrix                     # Animación de texto al estilo "The Matrix"
+apt-get install -y console-setup               # Configura el teclado y la consola del sistema
+apt-get install -y console-setup-linux         # Archivos específicos de Linux para setup de consola
+apt-get install -y cron                        # Herramienta para ejecutar tareas programadas
+apt-get install -y cron-daemon-common          # Archivos comunes del servicio cron
+apt-get install -y gawk                        # Versión GNU de AWK para procesamiento de texto
+apt-get install -y gettext-base                # Herramienta para traducción y localización de software
+apt-get install -y htop                        # Monitor interactivo de procesos del sistema
+apt-get install -y iproute2                    # Herramientas modernas para configuración de red
+apt-get install -y jp2a                        # Convierte imágenes JPEG a arte ASCII
+apt-get install -y kbd                         # Configuración de teclado (mapas de teclas, etc.)
+apt-get install -y keyboard-configuration      # Configura el teclado para consola y X
+apt-get install -y libatm1t64                  # Soporte para conexiones ATM (Asynchronous Transfer Mode)
+apt-get install -y libbpf1                     # Biblioteca para trabajar con eBPF
+apt-get install -y libconfuse-common           # Archivos comunes para libConfuse (parser de config)
+apt-get install -y libconfuse2                 # Biblioteca para parsear archivos de configuración
+apt-get install -y libevent-core-2.1-7t64      # Biblioteca para programación basada en eventos
+apt-get install -y libfribidi0                 # Soporte para texto bidireccional (ej. árabe, hebreo)
+apt-get install -y libio-pty-perl              # Permite manejar pseudo-terminales en Perl
+apt-get install -y libipc-run-perl             # Ejecuta procesos y comunica entre ellos en Perl
+apt-get install -y libmnl0                     # Biblioteca minimalista para Netlink (interfaz kernel)
+apt-get install -y libncurses6                 # Biblioteca para interfaces de texto enriquecido
+apt-get install -y libnewt0.52                 # Biblioteca para diálogos en consola (TUI)
+apt-get install -y libnl-3-200                 # Biblioteca para manipular netlink en C
+apt-get install -y libnl-genl-3-200            # Extensión para mensajes genéricos Netlink
+apt-get install -y libnl-route-3-200           # Ruta y manejo de red vía netlink
+apt-get install -y libsigsegv2                 # Manejo de errores por violación de segmento (debugging)
+apt-get install -y libslang2                   # Biblioteca para interfaces en modo texto
+apt-get install -y libtime-duration-perl       # Manejo de duraciones de tiempo en Perl
+apt-get install -y libtimedate-perl            # Manejo de fechas y tiempos en Perl
+apt-get install -y libtirpc-common             # Archivos comunes para RPC (Remote Procedure Call)
+apt-get install -y libtirpc3t64                # Implementación moderna de RPC para Linux
+apt-get install -y liburing2                   # Biblioteca para syscalls asincrónicos (io_uring)
+apt-get install -y libutempter0                # Maneja entradas en utmp al abrir pseudoterminales
+apt-get install -y libxtables12                # Biblioteca base para iptables
+apt-get install -y moreutils                   # Conjunto de herramientas útiles para la línea de comandos
+apt-get install -y pastebinit                  # Envia texto o archivos a servicios pastebin desde terminal
+apt-get install -y plocate                     # Reemplazo moderno y rápido de `locate`
+apt-get install -y python3-newt                # Binding de Python para libnewt (interfaz TUI)
+apt-get install -y python3-psutil              # Acceso a información de procesos y sistema en Python
+apt-get install -y python3-typing-extensions   # Extensiones de tipado para Python 3
+apt-get install -y python3-urwid               # Biblioteca para interfaces de usuario en texto (Python)
+apt-get install -y python3-wcwidth             # Manejo de caracteres anchos en consola
+apt-get install -y run-one                     # Evita que se ejecuten múltiples instancias del mismo comando
+apt-get install -y speedometer                 # Visualiza velocidad de red o disco en consola
+apt-get install -y tmux                        # Multiplexor de terminal, permite múltiples sesiones
+apt-get install -y tree                        # Muestra estructura de directorios como árbol
+apt-get install -y xkb-data                    # Datos de definición de teclados para X
+apt-get install -y hollywood                   # Simula actividad de hacker en la terminal
 
-##Instalar Apache
-sudo apt install apache2 -y
+############################################################################################################
+# Instalación de herramientas básicas comunes para administración de sistemas y redes
+############################################################################################################
+sudo apt install curl -y                       # Herramienta de transferencia de datos por URL
+sudo apt install git -y                        # Sistema de control de versiones distribuido
+sudo apt install unzip -y                      # Utilidad para descomprimir archivos ZIP
+sudo apt install ufw -y                        # Firewall simple para administrar reglas de red
+sudo apt install mailutils -y                  # Utilidades para enviar correo desde la terminal
+sudo apt install tmux -y                       # Multiplexor de terminal (repetido, ya instalado arriba)
+sudo apt install vim -y                        # Editor de texto mejorado basado en vi
+sudo apt install vsftpd -y                     # Servidor FTP seguro y ligero
 
-##Instalar MySQL
-#sudo apt install mysql-server -y
-#sudo apt install php-mysql -y
+############################################################################################################
+# Configuración de locale del sistema (idioma y codificación de caracteres)
+############################################################################################################
+sudo apt install locales -y                    # Instalación de paquetes de localización
+sudo dpkg-reconfigure locales                  # Configuración interactiva de locales
+#97. en_US.UTF-8 UTF-8                         # Seleccionar esta opción al configurar locales
+sudo locale-gen                                # Genera los archivos de locales
+sudo update-locale LANG=en_US.UTF-8            # Establece el locale por defecto del sistema
+#sudo update-locale LANG=es_CL.UTF-8 LANGUAGE=es_CL.UTF-8  # Alternativa para español de Chile
 
-sudo apt  install mariadb-server -y
-sudo apt  install mariadb-client -y
+source /etc/default/locale                     # Carga las variables de entorno del locale
 
-## Instalar PHP
-sudo apt install php -y 
-sudo apt install libapache2-mod-php -y 
-sudo apt install php-mysql -y
+# Esperado:
+# LANG=en_US.UTF-8
+# LANGUAGE=en_US.UTF-8
+# LC_ALL=
 
-## Instalar paquetes adicionales
-sudo apt install php-cli -y
-sudo apt install php-curl -y
-sudo apt install php-gd -y
-sudo apt install php-mbstring -y 
-sudo apt install php-xml -y
-sudo apt install php-zip -y
-sudo apt install php-xmlrpc -y 
-sudo apt install php-soap -y
-sudo apt install php-intl -y
-sudo apt install php-json -y
+############################################################################################################
 
-sudo apt install software-properties-common -y
-sudo apt install php-gettext -y
-sudo apt install php-fpm -y
-sudo apt install php-common -y
-sudo apt install php-opcache -y
-sudo apt install php-tokenizer -y
-sudo apt install php-bcmath -y
-sudo apt install php-gettext -y
-sudo apt install gnupg2 -y
-
-
-sudo apt install gnupg2 -y
-sudo apt install ca-certificates -y
-sudo apt install lsb-release -y
-sudo apt install apt-transport-https -y
-
-sudo apt install unzip -y
-sudo apt install wget -y
-
-sudo apt install tmux -y
-sudo apt install nano -y
-
-sudo a2enmod php*
-sudo a2enmod rewrite
-
-sudo apt autoremove 
-
-service apache2 restart 
-service mysql restart
 ```
 
 #### Configuracion de Servidor
@@ -200,37 +236,195 @@ Posteriormente, reinicia el servicio Apache para que los cambios en la configura
 
 El script finaliza ajustando permisos sobre los directorios del servidor web. Establece como propietario al usuario www-data (el que ejecuta Apache) y configura los permisos de escritura necesarios en /var/www/html/wordpress/ y /var/www/, lo que garantiza que Apache tenga acceso adecuado. Finalmente, se habilita el módulo rewrite de Apache para permitir reglas de redirección y reescritura de URLs. Este script deja listo el entorno para alojar sitios web dinámicos.
 ```bash
-sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/apache2/php.ini
-sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/apache2/php.ini
-sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/apache2/php.ini
-sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/apache2/php.ini
-sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/8.3/apache2/php.ini
+#!/usr/bin/env bash
 
-sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/cli/php.ini
-sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/cli/php.ini
-sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/cli/php.ini
-sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/cli/php.ini
-sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/8.3/cli/php.ini
+# Script para instalar y configurar PHP 8.3 con extensiones comunes para WordPress en Ubuntu 24.04 LTS
 
-sed -i 's/^;extension=curl/extension=curl/' /etc/php/8.3/fpm/php.ini
-sed -i 's/^;extension=gd/extension=gd/' /etc/php/8.3/fpm/php.ini
-sed -i 's/^;extension=mbstring/extension=mbstring/' /etc/php/8.3/fpm/php.ini
-sed -i 's/^;extension=mysqli/extension=mysqli/' /etc/php/8.3/fpm/php.ini
-sed -i 's/^;extension=pdo_mysql/extension=pdo_mysql/' /etc/php/8.3/fpm/php.ini
+PHPVERSION=8.3
 
+#############################################################################################################
+set -e  # Detiene el script si ocurre un error en cualquier línea
+
+echo "==> Actualizando índices de paquetes…"
+sudo apt update
+
+echo "==> Instalando PHP 8.3 y módulos requeridos…"
+sudo apt install php8.3 -y                                 # PHP base
+sudo apt install libapache2-mod-php8.3 -y                  # Integración de PHP con Apache
+sudo apt install php8.3-mysql -y                           # Conector de PHP con MySQL
+sudo apt install php8.3-cli -y                             # Interfaz de línea de comandos para PHP
+sudo apt install php8.3-curl -y                            # Soporte para transferencias cURL
+sudo apt install php8.3-gd -y                              # Librería gráfica para manipulación de imágenes
+sudo apt install php8.3-mbstring -y                        # Soporte para cadenas multibyte
+sudo apt install php8.3-xml -y                             # Manejo de XML
+# Nota: desde PHP 8.0 el módulo xmlrpc fue eliminado del core.
+# sudo apt install php8.3-xmlrpc -y                        # Puede no estar disponible
+sudo apt install php8.3-zip -y                             # Soporte para archivos comprimidos ZIP
+sudo apt install php8.3-bcmath -y                          # Operaciones matemáticas de precisión arbitraria
+sudo apt install php8.3-intl -y                            # Soporte para internacionalización
+sudo apt install php8.3-soap -y                            # Soporte para servicios web SOAP
+
+echo "==> Reiniciando Apache para cargar el módulo PHP 8.3…"
 service apache2 restart
 
-sudo sed -i 's/^\(\s*\)AllowOverride None/\1AllowOverride All/' /etc/apache2/apache2.conf
+echo "-------------------------------------------------------------"
+echo "PHP instalado. Comprobando versión y módulos cargados:"
+php -v                                                     # Mostrar versión de PHP
+echo
+php -m | grep -E 'curl|gd|mbstring|mysql|xml|zip|bcmath|intl|soap'  # Mostrar módulos cargados
+echo
+echo "¡Listo! PHP 8.3 y sus extensiones están operativos."
 
-service apache2 restart
+# Instalación adicional de extensiones útiles en un solo paso (algunas ya instaladas antes)
+sudo apt install php8.3-{fpm,cli,common,mysql,curl,gd,imagick,mbstring,xml,zip,bcmath,intl,soap,exif,fileinfo,opcache} -y
 
-chown www-data:www-data * -R /var/www/html/wordpress/
-chmod 775 * /var/www/
-chown -R www-data /var/www/ll
-sudo a2enmod rewrite
+#############################################################################################################
+# Configuración de parámetros de PHP para optimizar el entorno WordPress
+#############################################################################################################
+
+###############################################################################
+# 1. Límites de tiempo, memoria y carga
+###############################################################################
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/'        /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^max_execution_time = .*/max_execution_time = 300/'        /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/'                /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^max_input_time = .*/max_input_time = 600/'                /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/'                   /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^memory_limit = .*/memory_limit = 512M/'                   /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/'                 /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^post_max_size = .*/post_max_size = 256M/'                 /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/'     /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/'     /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/'             /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^max_file_uploads = .*/max_file_uploads = 50/'             /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^max_input_vars = .*/max_input_vars = 3000/'               /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^max_input_vars = .*/max_input_vars = 3000/'               /etc/php/${PHPVERSION}/cli/php.ini
+
+###############################################################################
+# 2. Zona horaria (ajusta la configuración regional para PHP)
+###############################################################################
+sudo sed -i 's~^;*date.timezone =.*~date.timezone = America/Santiago~'    /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's~^;*date.timezone =.*~date.timezone = America/Santiago~'    /etc/php/${PHPVERSION}/cli/php.ini
+
+###############################################################################
+# 3. Seguridad básica
+###############################################################################
+sudo sed -i 's/^;*expose_php = .*/expose_php = Off/'                      /etc/php/${PHPVERSION}/apache2/php.ini  # Oculta versión de PHP en cabeceras
+sudo sed -i 's/^;*expose_php = .*/expose_php = Off/'                      /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^display_errors = .*/display_errors = Off/'                /etc/php/${PHPVERSION}/apache2/php.ini  # Oculta errores al usuario
+sudo sed -i 's/^display_errors = .*/display_errors = Off/'                /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*log_errors = .*/log_errors = On/'                       /etc/php/${PHPVERSION}/apache2/php.ini  # Habilita registro de errores
+sudo sed -i 's/^;*log_errors = .*/log_errors = On/'                       /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's~^;*error_log = .*~error_log = /var/log/php_errors.log~'    /etc/php/${PHPVERSION}/apache2/php.ini # Archivo de log de errores
+sudo sed -i 's~^;*error_log = .*~error_log = /var/log/php_errors.log~'    /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*disable_functions = .*/disable_functions = exec,passthru,shell_exec,system,proc_open,popen/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini  # Deshabilita funciones peligrosas
+sudo sed -i 's/^;*disable_functions = .*/disable_functions = exec,passthru,shell_exec,system,proc_open,popen/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+
+###############################################################################
+# 4. Activación de extensiones necesarias si estuvieran comentadas
+###############################################################################
+for EXT in curl ftp fileinfo gd mbstring mysqli zip xml intl bcmath soap exif imagick opcache; do
+  sudo sed -i "s/^;extension=${EXT}/extension=${EXT}/"                   /etc/php/${PHPVERSION}/apache2/php.ini
+  sudo sed -i "s/^;extension=${EXT}/extension=${EXT}/"                   /etc/php/${PHPVERSION}/cli/php.ini
+done
+
+###############################################################################
+# 5. Optimización de OPcache y realpath cache (rendimiento)
+###############################################################################
+# OPcache mejora el rendimiento de PHP al mantener código precompilado en memoria
+sudo sed -i 's/^;*opcache.enable=.*/opcache.enable=1/'                    /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*opcache.memory_consumption=.*/opcache.memory_consumption=128/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=16/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*opcache.max_accelerated_files=.*/opcache.max_accelerated_files=10000/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*opcache.validate_timestamps=.*/opcache.validate_timestamps=1/' \
+                                                                            /etc/php/${PHPVERSION}/apache2/php.ini
+
+# realpath_cache mejora el acceso a archivos al almacenar rutas absolutas
+sudo sed -i 's/^;*realpath_cache_size = .*/realpath_cache_size = 4096k/'  /etc/php/${PHPVERSION}/apache2/php.ini
+sudo sed -i 's/^;*realpath_cache_ttl = .*/realpath_cache_ttl = 120/'      /etc/php/${PHPVERSION}/apache2/php.ini
+
+# Replicación de configuración de rendimiento para CLI
+sudo sed -i 's/^;*opcache.enable=.*/opcache.enable=1/'                    /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*opcache.memory_consumption=.*/opcache.memory_consumption=128/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=16/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*opcache.max_accelerated_files=.*/opcache.max_accelerated_files=10000/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*opcache.validate_timestamps=.*/opcache.validate_timestamps=1/' \
+                                                                            /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*realpath_cache_size = .*/realpath_cache_size = 4096k/'  /etc/php/${PHPVERSION}/cli/php.ini
+sudo sed -i 's/^;*realpath_cache_ttl = .*/realpath_cache_ttl = 120/'      /etc/php/${PHPVERSION}/cli/php.ini
+
+###############################################################################
+# 6. Reiniciar Apache para aplicar los cambios de configuración
+###############################################################################
+sudo service apache2 restart
+
+echo "---------------------------------------------------------------"
+echo "Parámetros PHP ajustados y Apache reiniciado. ¡Listo para WordPress!"
+
 
 ```
+```bash
 
+#!/bin/bash
+
+#############################################################################################################
+# Instala Apache2 y herramientas adicionales para autenticación básica y monitoreo
+sudo apt install -y apache2 
+sudo apt install -y apache2-utils
+
+# Reinicia el servicio Apache para aplicar los cambios
+service apache2 restart
+#############################################################################################################
+
+
+#############################################################################################################
+# Copia el archivo de configuración personalizado de WordPress al directorio de sitios disponibles de Apache
+sudo cp wordpress.conf /etc/apache2/sites-available/
+
+# Crea el directorio donde se alojará el sitio WordPress
+sudo mkdir -p /var/www/wordpress
+
+# Asigna la propiedad del directorio a Apache (usuario www-data)
+sudo chown -R www-data:www-data /var/www/wordpress
+
+# Establece permisos: 755 para directorios
+find /var/www/wordpress -type d -exec chmod 755 {} \;
+
+# Establece permisos: 644 para archivos
+find /var/www/wordpress -type f -exec chmod 644 {} \;
+
+# Habilita el módulo headers, necesario para manejar encabezados HTTP
+sudo a2enmod headers          
+
+# Habilita los módulos expires y deflate (control de caché y compresión)
+sudo a2enmod expires deflate  
+
+# Habilita el módulo rewrite, necesario para URLs amigables de WordPress
+sudo a2enmod rewrite          
+
+# Activa el sitio de WordPress definido en wordpress.conf
+sudo a2ensite wordpress
+
+# Desactiva el sitio por defecto (opcional, elimina "It works")
+sudo a2dissite 000-default     
+
+# Reinicia Apache para aplicar cambios en sitios y módulos
+sudo service apache2 restart
+#############################################################################################################
+
+```
 
 #### Instalacion de R en el servidor
 Este script automatiza la instalación de R, RStudio Desktop y RStudio Server en Ubuntu. Inicia con la actualización del sistema y la instalación de utilitarios esenciales como locales, gnupg y software-properties-common. Luego, incorpora bibliotecas de desarrollo requeridas para compilar paquetes R con dependencias en C/C++, gráficos y red (libcurl, libssl, libxml2, entre otras).
@@ -297,16 +491,6 @@ sudo apt install -f
 wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.0-735-amd64.deb
 sudo apt install ./rstudio-server-2024.04.0-735-amd64.deb
 
-#sudo systemctl start rstudio-server
-#sudo systemctl enable rstudio-server
-#sudo systemctl status rstudio-server
-
-#Ver estado	sudo systemctl status rstudio-server
-#Reiniciar RStudio Server	sudo systemctl restart rstudio-server
-#Ver logs	sudo journalctl -u rstudio-server
-#Ver usuarios conectados	sudo rstudio-server active-sessions
-
-#  Instalar tidyverse y ggplot2 desde R
 sudo R --no-save <<EOF
 install.packages("tidyverse", repos="https://cloud.r-project.org")
 install.packages("ggplot2", repos="https://cloud.r-project.org")
