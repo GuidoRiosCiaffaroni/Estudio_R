@@ -15,5 +15,5 @@ Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/016_Funcion_gr
 Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/017_Funciones_Ejemplo.R
 Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/018_Funciones_EstudioPreliminar.R
 Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/021_Funciones_ParaEstudio_V3.R
-
-
+Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/025_test_analiza_wp_upload_con_reporte_Pandoc_V2.R
+Rscript /var/www/wordpress/wp-content/plugins/sh-executor/scripts/028_test_analiza_wp_upload_con_reporte_md_V4.R
