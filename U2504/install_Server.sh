@@ -74,6 +74,7 @@ sudo apt install mailutils -y
 sudo apt install tmux -y 
 sudo apt install vim -y 
 sudo apt install vsftpd -y 
+sudo apt install pandoc -y 
 
 #############################################################################################################
 
