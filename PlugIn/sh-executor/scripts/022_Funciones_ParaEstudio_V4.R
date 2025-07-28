@@ -164,3 +164,27 @@ analiza_wp_upload <- function(edad      = NULL,
 # analiza_wp_upload(edad = c(20,40), plot_3d = TRUE)
 # ───────────────────────────────────────────────────────────────────────────────
 #  FIN -------------------------------------------------------------------------
+
+
+# ───────────────────────────────────────────────────────────────────────────────
+#  TEST testthat --------------------------------------------------
+# ───────────────────────────────────────────────────────────────────────────────
+
+# Instalar y cargar testthat si es necesario
+if (!"testthat" %in% installed.packages()[, "Package"]) install.packages("testthat")
+library(testthat)
+
+# Test muy básico: verifica que la función retorna una lista con los elementos esperados
+test_analiza_wp_upload <- function() {
+  test_that("analiza_wp_upload retorna una lista con componentes esperados", {
+    resultado <- analiza_wp_upload(plot_3d = FALSE)
+
+    expect_type(resultado, "list")
+    expect_true(all(c("datos", "resumen_edad", "freq_genero", "freq_comuna", "chi_res", "aov_res") %in% names(resultado)))
+    expect_s3_class(resultado$datos, "data.frame")
+    expect_s3_class(resultado$resumen_edad, "data.frame")
+  })
+}
+
+# Ejecutar test
+test_analiza_wp_upload()
