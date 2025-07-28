@@ -840,6 +840,76 @@ write.csv2(datos, "Data_modificado.csv", fileEncoding = "UTF-8", row.names = FAL
 ###########################################################################
 ```
 
+
+### 9. Reportes Automatizados de Validación Funcional en R
+
+Como parte de la arquitectura analítica de este proyecto, se ha incorporado un mecanismo robusto de validación mediante pruebas unitarias y documentación automatizada. Este sistema tiene por objetivo garantizar el funcionamiento correcto, reproducible y transparente de la función central `analiza_wp_upload()`, la cual extrae, filtra y analiza registros desde la base de datos `wp_db_upload`.
+
+#### 9.1. Validación mediante `testthat`
+
+La función ha sido evaluada utilizando el paquete `testthat`, ampliamente reconocido en el ecosistema R para la ejecución de pruebas unitarias. Estas pruebas comprueban condiciones específicas como:
+
+-  Correcta filtración por edad exacta.
+-  Integridad de los resultados retornados.
+-  Comportamiento esperado al combinar filtros por `edad`, `género` y `comuna`.
+
+La ejecución de estas pruebas se realiza en una base de datos **SQLite simulada en memoria**, la cual emula las condiciones operativas reales sin comprometer el entorno productivo.
+
+#### 9.2. Generación de Reportes Automatizados
+
+Se han desarrollado dos scripts especializados que documentan automáticamente los resultados de las pruebas:
+
+-  `025_test_analiza_wp_upload_con_reporte_Pandoc_V2.R`: genera un reporte en **formato HTML** utilizando `rmarkdown::render()` y la infraestructura de **Pandoc**.
+-  `028_test_analiza_wp_upload_con_reporte_md_V4.R`: produce un **archivo Markdown plano (.md)**, que almacena línea por línea la salida de consola del proceso de testing.
+
+Estos scripts crean sus respectivos informes en una carpeta persistente del sistema WordPress, siguiendo la ruta:
+
+
+/var/www/wordpress/wp-content/plugins/sh-executor/archives/
+
+
+```bash
+Los nombres de salida son:
+
+- `reporte_testthat.md` → Informe plano y legible desde la terminal o editores de texto.
+- `reporte_testthat.html` → Informe enriquecido y navegable mediante navegador web.
+```
+
+#### 9.3. Fragmento del Código de Ejecución
+
+A continuación, se muestra un extracto clave del script encargado de generar el reporte en HTML:
+
+
+```bash
+# Renderizar archivo .Rmd usando Pandoc y rmarkdown
+rmarkdown::render(ruta_rmd, output_file = ruta_html, quiet = TRUE)
+```
+Y el fragmento que construye el .md línea por línea:
+
+```bash
+test_output <- capture.output({
+  result <- testthat::test_file(test_file, reporter = "summary")
+  print(result)
+}, type = "output")
+
+writeLines(paste0("    ", test_output), con = con_md)
+
+```
+#### 9.4. Valor Agregado
+Este enfoque permite:
+
+Documentar evidencia de pruebas ejecutadas en cada versión de la función.
+
+Asegurar la trazabilidad de los resultados.
+
+Permitir auditorías o revisiones externas del código sin necesidad de interpretar resultados en vivo.
+
+En definitiva, la incorporación de este sistema de testing y documentación automatizada refuerza la reproducibilidad científica, la calidad del desarrollo y la transparencia del análisis estadístico.
+
+
+
+
+
 ### 001 Grafico Preliminar 
 El código en R realiza una visualización básica de la distribución de víctimas según su género. Primero, carga un archivo CSV llamado "Data_modificado.csv", asegurándose de que los textos se lean correctamente y sin convertir cadenas a factores automáticamente. Luego, transforma la columna Genero.Victima en un factor con tres niveles etiquetados como "Hombre", "Mujer" y "Otro", asignando etiquetas más descriptivas a los valores codificados 0, 1 y 2.
 
