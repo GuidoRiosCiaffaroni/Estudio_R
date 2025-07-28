@@ -7,7 +7,7 @@
 #    Dispersión edad–comuna
 #    Proporción por género (pastel)
 #    Histograma temporal
-# Todos los PNG se guardan en /home/r/Estudio_R/salidas
+# Todos los PNG se guardan en /var/www/wordpress/wp-content/plugins/sh-executor/archives
 # ────────────────────────────────────────────────────────────────────────────────
 
 ## 1. Librerías =================================================================
@@ -24,7 +24,7 @@ library(janitor)
 library(ggplot2)
 
 ## 2. Directorio de salida =======================================================
-dir_out_global <- "/home/r/Estudio_R/salidas"
+dir_out_global <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(dir_out_global)) dir.create(dir_out_global, recursive = TRUE)
 
 ## 3. Conexión MariaDB: base “wordpress” ========================================
@@ -83,7 +83,7 @@ grafico_genero_victima <- function(df) {
       x = "Género",
       y = "Cantidad"
     )
-  gsave_out(g, "012_grafico_genero_victima.png", 6, 4)
+  gsave_out(g, "017_grafico_genero_victima.png", 6, 4)
 }
 
 grafico_genero_cruzado <- function(df) {
@@ -101,7 +101,7 @@ grafico_genero_cruzado <- function(df) {
       fill = "Género agresor",
       y = "Cantidad"
     )
-  gsave_out(g, "012_grafico_genero_cruzado.png", 6, 4)
+  gsave_out(g, "017_grafico_genero_cruzado.png", 6, 4)
 }
 
 grafico_comuna <- function(df) {
@@ -113,7 +113,7 @@ grafico_comuna <- function(df) {
       y = "Cantidad"
     ) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  gsave_out(g, "012_grafico_comuna.png", 8, 5)
+  gsave_out(g, "017_grafico_comuna.png", 8, 5)
 }
 
 grafico_edad_comuna <- function(df) {
@@ -132,7 +132,7 @@ grafico_edad_comuna <- function(df) {
       y = "Comuna",
       color = "Género víctima"
     )
-  gsave_out(g, "012_grafico_edad_comuna.png", 7, 5)
+  gsave_out(g, "017_grafico_edad_comuna.png", 7, 5)
 }
 
 grafico_pastel_genero <- function(df) {
@@ -149,7 +149,7 @@ grafico_pastel_genero <- function(df) {
       fill = "Género"
     ) +
     theme_void()
-  gsave_out(g, "012_grafico_pastel_genero.png", 5, 5)
+  gsave_out(g, "017_grafico_pastel_genero.png", 5, 5)
 }
 
 grafico_tiempo <- function(df) {
@@ -163,7 +163,7 @@ grafico_tiempo <- function(df) {
       x = "Fecha",
       y = "Cantidad"
     )
-  gsave_out(g, "012_grafico_tiempo.png", 7, 4)
+  gsave_out(g, "017_grafico_tiempo.png", 7, 4)
 }
 
 ## 6. Ejecutar y guardar los gráficos ===========================================

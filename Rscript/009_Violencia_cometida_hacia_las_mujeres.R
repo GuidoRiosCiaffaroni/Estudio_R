@@ -47,7 +47,7 @@ graf <- mujeres %>%
   theme_minimal()
 
 # ── 6. Guardar resultado en el directorio compartido ───────────────────────────
-dir_out <- "/home/r/Estudio_R/salidas"            # mismo dir que el script 005
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"          
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 ggsave(
@@ -58,4 +58,4 @@ ggsave(
   dpi      = 300
 )
 
-message("Gráfico guardado en: ", file.path(dir_out, "005_violencia_mujeres.png"))
+message("Gráfico guardado en: ", file.path(dir_out, "009_violencia_mujeres.png"))

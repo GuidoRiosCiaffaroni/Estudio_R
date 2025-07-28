@@ -47,7 +47,7 @@ graf <- mujeres %>%
   theme_minimal()
 
 # ── 6. Guardar resultado en el directorio compartido ───────────────────────────
-dir_out <- "/home/r/Estudio_R/salidas"            # mismo dir que el script 005
+dir_out <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"    
 if (!dir.exists(dir_out)) dir.create(dir_out, recursive = TRUE)
 
 ggsave(
