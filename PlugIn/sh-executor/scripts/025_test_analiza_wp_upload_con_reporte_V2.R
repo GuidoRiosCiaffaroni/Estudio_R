@@ -62,32 +62,34 @@ test_that("Filtro por edad exacta retorna 1 fila", {
 test_file <- file.path(tempdir(), "test_analiza_wp_upload.R")
 writeLines(test_code, test_file)
 
-# Generar archivo Rmd
+# Generar archivo Rmd correctamente con texto multilínea
 ruta_salida <- "/var/www/wordpress/wp-content/plugins/sh-executor/archives"
 if (!dir.exists(ruta_salida)) dir.create(ruta_salida, recursive = TRUE)
 ruta_rmd <- file.path(tempdir(), "reporte_testthat.Rmd")
 ruta_html <- file.path(ruta_salida, "reporte_testthat.html")
 
-writeLines(c(
-  "---",
-  "title: "Reporte de Test para analiza_wp_upload"",
-  "output: html_document",
-  "---",
-  "",
-  "```{r setup, include=FALSE}",
-  "knitr::opts_chunk$set(echo = TRUE)",
-  "library(testthat)",
-  "```",
-  "",
-  "## Resultado de pruebas con testthat",
-  "",
-  "```{r}",
-  paste0("testthat::test_file('", test_file, "')"),
-  "```"
-), ruta_rmd)
+rmd_content <- sprintf('
+---
+title: "Reporte de Test para analiza_wp_upload"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(testthat)
+```
+
+## Resultado de pruebas con testthat
+
+```{r}
+testthat::test_file("%s")
+```
+', test_file)
+
+writeLines(rmd_content, ruta_rmd)
 
 # Renderizar HTML
-rmarkdown::render(ruta_rmd, output_file = ruta_html)
+rmarkdown::render(ruta_rmd, output_file = ruta_html, quiet = TRUE)
 
 # Cierre conexión
 dbDisconnect(con)
